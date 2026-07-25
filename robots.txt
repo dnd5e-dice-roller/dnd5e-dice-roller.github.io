@@ -1,0 +1,8 @@
+# robots.txt — D&D 5e Dice Roller
+# https://williamwolf92.github.io/dnd5e-dice-roller/
+
+User-agent: *
+Allow: /
+
+# Primary sitemap
+Sitemap: https://williamwolf92.github.io/dnd5e-dice-roller/sitemap.xml

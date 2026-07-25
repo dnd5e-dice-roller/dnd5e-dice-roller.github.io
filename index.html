@@ -1,463 +1,4352 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Track initiative, HP, conditions and dice rolls for D&D 5e. Free browser tool, no login required.">
-<meta name="keywords" content="dnd combat tracker, dnd 5e tracker, initiative tracker, dungeons and dragons tool">
-<meta name="robots" content="index, follow">
-<meta name="twitter:title" content="D&D 5e Combat Tracker — Free & No Login">
-<meta name="twitter:description" content="Track initiative, HP, conditions and dice rolls for D&D 5e. Free browser tool, no login required.">
-<meta name="twitter:image" content="https://github.com/williamwolf92/dnd-combat-tracker/preview.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="mobile-web-app-capable" content="yes">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="es_ES">
-<meta property="og:site_name" content="D&D 5e Combat Tracker">
-<meta property="og:title" content="D&D 5e Combat Tracker - Free & No Login">
-<meta property="og:description" content="Track initiative, HP, conditions and dice rolls for D&D 5e. Free browser tool, no login required.">
-<meta property="og:image" content="https://github.com/williamwolf92/dnd-combat-tracker/preview.jpg">
-<meta property="og:url" content="https://williamwolf92.github.io/dnd-combat-tracker/">
-<title>D&D 5e Combat Tracker</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="manifest" href="manifest.json" />
+    <meta
+      name="google-site-verification"
+      content="bVRSgXIsfiMJQzOA5IqzHq4rglR4AAdRm0D9aGcmkr4"
+    />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    />
+    <title>D&amp;D Dice Roller</title>
 
-<!-- ────── SHARED COMBAT / HISTORY HEADER ────── -->
-<header class="shared-header" id="sharedHeader" style="display:none;">
+    <!-- SEO & Discovery -->
+    <meta
+      name="description"
+      content="D&amp;D Dice Roller: a free browser-based 3D dice simulator for D&amp;D and tabletop RPGs. Roll d4, d6, d8, d10, d12, d20 and d100 with realistic physics. Supports advantage, disadvantage, skills, saving throws and custom rolls."
+    />
+    <meta
+      name="keywords"
+      content="D&D dice roller, 3D dice, tabletop RPG, dungeons and dragons, d20, dice simulator, TTRPG, dice physics, dice box, online dice, RPG tools, 3d20, percentile dice"
+    />
+    <meta name="author" content="williamwolf92" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#5c3d1e" />
+    <link
+      rel="canonical"
+      href="https://williamwolf92.github.io/dnd5e-dice-roller/"
+    />
 
-  <div id="sharedHeaderCombat" style="display:none;">
-    <div class="combat-left-group">
-      <button class="btn btn-add" onclick="openAddModal()">✦ Nuevo</button>
-      <button class="btn btn-tool" onclick="exportCombatState()" title="Export state">💾</button>
-      <button class="btn btn-tool" onclick="importCombatState()" title="Import state">📂</button>
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://williamwolf92.github.io/dnd5e-dice-roller/"
+    />
+    <meta property="og:title" content="D&amp;D Dice Roller" />
+    <meta
+      property="og:description"
+      content="D&amp;D Dice Roller: a free browser-based 3D dice simulator for D&amp;D and tabletop RPGs. Roll d4, d6, d8, d10, d12, d20 and d100 with realistic physics. Supports advantage, disadvantage, skills, saving throws and custom rolls."
+    />
+    <meta
+      property="og:image"
+      content="https://williamwolf92.github.io/dnd5e-dice-roller/assets/icon.png"
+    />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:type" content="image/png" />
+    <meta
+      property="og:image:alt"
+      content="D&amp;D Dice Roller – interactive 3D dice simulator for D&amp;D"
+    />
+    <meta property="og:site_name" content="D&amp;D Dice Roller" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:url"
+      content="https://williamwolf92.github.io/dnd5e-dice-roller/"
+    />
+    <meta name="twitter:title" content="D&amp;D Dice Roller" />
+    <meta
+      name="twitter:description"
+      content="Roll any TTRPG die in 3D with realistic physics. Supports d4 through d100, advantage/disadvantage, skills, saving throws and custom roll presets."
+    />
+    <meta
+      name="twitter:image"
+      content="https://williamwolf92.github.io/dnd5e-dice-roller/assets/icon.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="D&amp;D Dice Roller — interactive 3D dice simulator for D&amp;D"
+    />
+
+    <!-- PWA / Mobile -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="D&amp;D Dice Roller" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="D&amp;D Dice Roller" />
+    <link rel="apple-touch-icon" href="assets/icon.png" />
+    <link rel="icon" href="assets/icon.png" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Georgia;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #f5efe6;
+      }
+
+      #app {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Zona superior: caja de dados */
+      #dice-box-wrapper {
+        position: relative;
+        flex: 1;
+        background-image: url("assets/wood-bg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+      }
+
+      #dice-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      #dice-box canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      /* Panel de resultados */
+      #result-panel {
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translate(-50%, -150%);
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 14px;
+        padding: 10px 24px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        z-index: 5;
+        pointer-events: none;
+        width: max-content;
+        max-width: 90%;
+        opacity: 0;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+
+      #result-panel.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+
+      #result-total {
+        font-size: 32px;
+        font-weight: 700;
+        color: #2b2b2b;
+      }
+
+      #result-detail {
+        font-size: 13px;
+        color: #6b6b6b;
+        margin-top: 4px;
+        word-break: break-word;
+      }
+
+      #empty-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #2b2b2b;
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        width: 90%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Toast de descarga en caché (precache offline) */
+      #precache-toast {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform: translate(-50%, 20px);
+        background-color: rgba(40, 30, 20, 0.92);
+        color: #f5efe6;
+        border-radius: 14px;
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        max-width: 90%;
+        width: max-content;
+      }
+
+      #precache-toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0px);
+      }
+
+      #precache-ring {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        transform: rotate(-90deg);
+      }
+
+      #precache-ring circle {
+        fill: none;
+        stroke-width: 4px;
+      }
+
+      .precache-ring-bg {
+        stroke: rgba(255, 255, 255, 0.22);
+      }
+
+      .precache-ring-fg {
+        stroke: #8fd18f;
+        stroke-linecap: round;
+        stroke-dasharray: 100.53;
+        stroke-dashoffset: 100.53;
+        transition: stroke-dashoffset 0.25s ease;
+      }
+
+      #precache-toast-text {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      #precache-toast-sub {
+        font-size: 12px;
+        opacity: 0.75;
+        margin-top: 2px;
+      }
+
+      /* Toast central Nat. 1 / Nat. 20 */
+      #nat-toast {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        padding: 8px 10px;
+        transform: translate(-50%, -50%) translateY(20px);
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+        width: max-content;
+        max-width: 90%;
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        z-index: 6;
+        pointer-events: none;
+        opacity: 0;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+
+      #nat-toast.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(0px);
+      }
+
+      #nat-toast.nat-fail {
+        color: #b10000;
+      }
+      #nat-toast.nat-success {
+        color: #007f27;
+      }
+
+      /* ── Roll Type Picker ────────────────────────────── */
+      #roll-type-picker {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.88);
+        background-color: rgba(250, 246, 239, 0.97);
+        border-radius: 18px;
+        padding: 18px 22px 20px;
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+        z-index: 20;
+        text-align: center;
+        min-width: 230px;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      #roll-type-picker.show {
+        opacity: 1;
+        pointer-events: all;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      #roll-type-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2b2b2b;
+        margin-bottom: 5px;
+      }
+
+      #roll-type-label-text {
+        font-size: 15px;
+        color: #7a6e62;
+        margin-bottom: 14px;
+        font-style: italic;
+      }
+
+      #roll-type-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+      }
+
+      #roll-type-buttons .rtp-btn {
+        flex: 1;
+      }
+
+      .rtp-btn {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        font-size: 15px;
+        font-weight: 700;
+        touch-action: manipulation;
+        font-family: Georgia;
+      }
+
+      #rtp-normal {
+        background-color: #2b2b2b;
+        color: #ffffff;
+      }
+
+      #rtp-normal:active {
+        background-color: #444444;
+      }
+
+      #rtp-advantage {
+        background-color: #007f27;
+        color: #ffffff;
+      }
+
+      #rtp-advantage:active {
+        background-color: #009a30;
+      }
+
+      #rtp-disadvantage {
+        background-color: #b10000;
+        color: #ffffff;
+      }
+
+      #rtp-disadvantage:active {
+        background-color: #cc0000;
+      }
+
+      /* Menú inferior */
+      #control-panel {
+        flex-shrink: 0;
+        background-color: #ffffff;
+        border-top: 1px solid #e6ddcf;
+        padding: 10px 10px calc(env(safe-area-inset-bottom, 0px) + 10px);
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      #control-content {
+        flex: 1;
+        min-width: 0;
+      }
+
+      #dice-selectors {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 8px;
+        padding-bottom: 8px;
+      }
+
+      .die-selector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        background-color: #faf6ef;
+        border-radius: 12px;
+        padding: 4px 4px;
+        border: 1px solid #3a3a3a;
+      }
+
+      .die-label {
+        font-size: 18px;
+        font-weight: 600;
+        color: #3a3a3a;
+      }
+
+      .die-counter {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .counter-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: none;
+        background-color: #2b2b2b;
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+      }
+
+      .counter-btn:active {
+        background-color: #555555;
+      }
+
+      .die-count {
+        width: 22px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+        color: #2b2b2b;
+      }
+
+      #extra-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .extra-btn {
+        border: 1px solid #3a3a3a;
+        background-color: #faf6ef;
+        color: #3a3a3a;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        touch-action: manipulation;
+      }
+
+      .extra-btn:active {
+        background-color: #e0d5c0;
+      }
+
+      #action-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 14px 0;
+        border-radius: 12px;
+        border: none;
+        font-size: 16px;
+        font-weight: 700;
+        touch-action: manipulation;
+      }
+
+      #roll-btn {
+        background-color: #2b2b2b;
+        color: #ffffff;
+      }
+
+      #roll-btn:active {
+        background-color: #444444;
+      }
+
+      #clear-btn {
+        background-color: #efe7d8;
+        color: #3a3a3a;
+      }
+
+      #clear-btn:active {
+        background-color: #e0d5c0;
+      }
+
+      #d100-btn {
+        background-color: #5c3d1e;
+        color: #ffffff;
+      }
+
+      #d100-btn:active {
+        background-color: #7a5230;
+      }
+
+      /* ── Floating config buttons ─────────────────────────── */
+      #float-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2px;
+        flex-shrink: 0;
+      }
+
+      .float-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1.5px solid #3a3a3a;
+        background-color: #faf6ef;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        flex-shrink: 0;
+      }
+
+      .float-btn:active {
+        background-color: rgba(224, 213, 195, 0.95);
+      }
+
+      /* ── Modal base ──────────────────────────────────────── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.42);
+        z-index: 100;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease;
+      }
+
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .modal-box {
+        background-color: #faf6ef;
+        border-radius: 20px 20px 0 0;
+        width: 100%;
+        max-width: 500px;
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        transform: translateY(24px);
+        transition: transform 0.22s ease;
+      }
+
+      .modal-overlay.open .modal-box {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px 12px;
+        border-bottom: 1px solid #efe7d8;
+      }
+
+      .modal-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2b2b2b;
+      }
+
+      .modal-close {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: none;
+        background-color: #e8e0d4;
+        color: #3a3a3a;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+      }
+
+      .modal-close:active {
+        background-color: #d5cab8;
+      }
+
+      .modal-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .modal-icon-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: none;
+        background-color: #e8e0d4;
+        color: #3a3a3a;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+      }
+
+      .modal-icon-btn:active {
+        background-color: #d5cab8;
+      }
+
+      .modal-body {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px 10px calc(env(safe-area-inset-bottom, 0px) + 10px);
+      }
+
+      /* ── Color modal ─────────────────────────────────────── */
+      #color-section-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #7a6e62;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      #color-picker-wrapper {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+
+      #hue-slider {
+        position: relative;
+        width: 22px;
+        height: 160px;
+        border-radius: 11px;
+        background: linear-gradient(
+          to bottom,
+          #ff0000 0%,
+          #ffff00 17%,
+          #00ff00 33%,
+          #00ffff 50%,
+          #0000ff 67%,
+          #ff00ff 83%,
+          #ff0000 100%
+        );
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.15),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+        touch-action: none;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      #hue-thumb {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 26px;
+        height: 10px;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        border: 2px solid #fff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+      }
+
+      #sv-box {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        border-radius: 10px;
+        background-color: #ff0000;
+        background-image:
+          linear-gradient(to top, #000000, rgba(0, 0, 0, 0)),
+          linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.15),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+        touch-action: none;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      #sv-thumb {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2.5px solid #fff;
+        box-shadow:
+          0 1px 4px rgba(0, 0, 0, 0.5),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      #color-result-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+        padding-top: 4px;
+      }
+
+      #color-swatch {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        border: 3px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.15s;
+      }
+
+      #color-hex-label {
+        font-size: 12px;
+        color: #7a6e62;
+        font-family: monospace;
+      }
+
+      /* ── Gem themes section ──────────────────────────────── */
+      #gem-themes-divider {
+        border: none;
+        border-top: 1px solid #e6ddcf;
+        margin: 18px 0 14px;
+      }
+
+      #gem-themes-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #7a6e62;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      #gem-themes-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .gem-theme-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 2px solid #e6ddcf;
+        background-color: #ffffff;
+        color: #2b2b2b;
+        font-size: 14px;
+        font-weight: 700;
+        touch-action: manipulation;
+        font-family: Georgia;
+        transition:
+          border-color 0.12s,
+          box-shadow 0.12s;
+      }
+
+      .gem-theme-btn:active {
+        background-color: #efe7d8;
+      }
+
+      .gem-theme-btn.active {
+        border-color: #2b2b2b;
+        box-shadow:
+          0 0 0 2px #faf6ef,
+          0 0 0 4px #2b2b2b;
+        background-color: #faf6ef;
+      }
+
+      .gem-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+      }
+
+      /* ── Physics modal ───────────────────────────────────── */
+      .param-row-pair {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .param-row-pair:last-child {
+        margin-bottom: 0;
+      }
+
+      .param-card {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 10px;
+        padding: 14px 8px;
+      }
+
+      .param-card-label {
+        font-size: 20px;
+        font-weight: 600;
+        color: #3a3a3a;
+        text-align: center;
+      }
+
+      .param-card-value {
+        font-size: 17px;
+        font-weight: 700;
+        color: #5c3d1e;
+        background-color: #efe7d8;
+        padding: 4px 14px;
+        border-radius: 8px;
+        min-width: 72px;
+        text-align: center;
+        border: none;
+        font-family: inherit;
+        touch-action: manipulation;
+      }
+
+      .param-card-value:active {
+        background-color: #e0d4ba;
+      }
+
+      /* ── Skills modal ────────────────────────────────────── */
+      .skills-section {
+        margin-bottom: 10px;
+      }
+
+      .skills-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .skills-section-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .skills-section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #5c3d1e;
+        margin-bottom: 5px;
+      }
+
+      /* ── CharacterSheet: Name / Level / HP row ──────────────── */
+      .charsheet-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .charsheet-field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .charsheet-field.full {
+        width: 100%;
+      }
+
+      .charsheet-field.half {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .charsheet-label {
+        font-size: 16px;
+        font-weight: 700;
+        color: #5c3d1e;
+      }
+
+      .charsheet-input {
+        border: 1px solid #c9bda8;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #2b2b2b;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 8px 10px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      .charsheet-input:focus {
+        outline: none;
+        border-color: #5c3d1e;
+      }
+
+      .charsheet-input::placeholder {
+        color: #b0a090;
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      /* HP / HP max combined field */
+      .hp-combo {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+      }
+
+      .hp-btn {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: none;
+        background-color: #2b2b2b;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        padding: 0;
+        flex-shrink: 0;
+      }
+
+      .hp-btn:active {
+        background-color: #555555;
+      }
+
+      .hp-display {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 8px;
+        padding: 8px 4px;
+      }
+
+      .hp-current {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2b2b2b;
+        background: none;
+        border: none;
+        padding: 0;
+        width: 20px;
+        text-align: right;
+        touch-action: manipulation;
+      }
+
+      .hp-current:active {
+        opacity: 0.6;
+      }
+
+      .hp-slash {
+        font-size: 16px;
+        font-weight: 700;
+        color: #9b8f7e;
+      }
+
+      .hp-max-input {
+        width: 20px;
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        font-weight: 700;
+        color: #2b2b2b;
+        text-align: left;
+        padding: 0;
+      }
+
+      .hp-max-input:focus {
+        outline: none;
+      }
+
+      .hp-max-input::-webkit-inner-spin-button,
+      .hp-max-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* ── CharacterSheet: stat cards (AC / Init / Speed / Passive P. / Prof. Bonus / Hit Dice) ── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+      }
+
+      .stat-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 10px;
+        padding: 7px 5px;
+        gap: 5px;
+      }
+
+      .stat-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #7a6e62;
+        text-align: center;
+        background: none;
+        border: none;
+        padding: 0;
+      }
+
+      .stat-label.clickable {
+        touch-action: manipulation;
+      }
+
+      .stat-label.clickable:active {
+        opacity: 0.6;
+      }
+
+      .stat-value-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .stat-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2b2b2b;
+        min-width: 24px;
+        text-align: center;
+        background: none;
+        border: none;
+        padding: 0;
+      }
+
+      .stat-value.clickable {
+        touch-action: manipulation;
+      }
+
+      .stat-value.clickable:active {
+        opacity: 0.6;
+      }
+
+      .hitdice-type-btn {
+        font-size: 11px;
+        font-weight: 700;
+        color: #5c3d1e;
+        background-color: #faf6ef;
+        border: 1px solid #c9bda8;
+        border-radius: 6px;
+        padding: 2px 8px;
+        touch-action: manipulation;
+      }
+
+      .hitdice-type-btn:active {
+        background-color: #efe7d8;
+      }
+
+      /* ── HP mini modal ───────────────────────────────────────── */
+      #hp-mini-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 150;
+        background-color: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      #hp-mini-backdrop.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      #hp-mini-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.88);
+        background-color: rgba(250, 246, 239, 0.97);
+        border-radius: 18px;
+        padding: 18px 22px 20px;
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+        z-index: 151;
+        text-align: center;
+        width: 260px;
+        max-width: 84%;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      #hp-mini-modal.show {
+        opacity: 1;
+        pointer-events: all;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      #hp-mini-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2b2b2b;
+        margin-bottom: 12px;
+      }
+
+      #hp-mini-input {
+        width: 100%;
+        border: 1px solid #c9bda8;
+        border-radius: 8px;
+        background-color: #faf6ef;
+        color: #2b2b2b;
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+        padding: 8px 10px;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+      }
+
+      #hp-mini-input:focus {
+        outline: none;
+        border-color: #5c3d1e;
+      }
+
+      #hp-mini-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .hp-mini-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        font-size: 15px;
+        font-weight: 700;
+        touch-action: manipulation;
+      }
+
+      #hp-mini-minus {
+        background-color: #b10000;
+        color: #ffffff;
+      }
+
+      #hp-mini-minus:active {
+        background-color: #8a0000;
+      }
+
+      #hp-mini-plus {
+        background-color: #007f27;
+        color: #ffffff;
+      }
+
+      #hp-mini-plus:active {
+        background-color: #005e1c;
+      }
+
+      /* Habilidades */
+      .ability-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 5px;
+      }
+
+      .ability-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 10px;
+        padding: 7px 1px;
+      }
+
+      .ability-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #7a6e62;
+      }
+
+      .ability-values {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        padding: 5px 0;
+      }
+
+      .ability-score {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2b2b2b;
+        margin-top: 0px;
+      }
+
+      .ability-mod {
+        font-size: 15px;
+        color: #6b6b6b;
+        margin-top: 1px;
+      }
+
+      .ability-btns {
+        display: flex;
+        gap: 4px;
+      }
+
+      .ability-btn-small {
+        width: 21px;
+        height: 21px;
+        border-radius: 50%;
+        border: none;
+        background-color: #2b2b2b;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        padding: 0;
+      }
+
+      .ability-btn-small:active {
+        background-color: #555555;
+      }
+
+      /* Tiradas de salvación */
+      .save-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 5px;
+      }
+
+      .save-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 10px;
+        padding: 7px;
+        gap: 6px;
+      }
+
+      .save-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #7a6e62;
+      }
+
+      .save-roll-btn {
+        width: 100%;
+        border: 1px solid #c9bda8;
+        border-radius: 8px;
+        background-color: #faf6ef;
+        color: #2b2b2b;
+        font-size: 16px;
+        font-weight: 700;
+        padding: 3px 0;
+        touch-action: manipulation;
+      }
+
+      .save-roll-btn:active {
+        background-color: #555555;
+      }
+
+      .save-prof-checkbox {
+        width: 16px;
+        height: 16px;
+        accent-color: #5c3d1e;
+      }
+
+      /* Skills */
+      .skills-columns {
+        display: flex;
+        gap: 10px;
+      }
+
+      .skills-column {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .skill-group {
+        margin-bottom: 8px;
+      }
+
+      .skill-group:last-child {
+        margin-bottom: 0;
+      }
+
+      .skill-group-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #7a6e62;
+        margin-bottom: 5px;
+      }
+
+      .skill-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 5px;
+      }
+
+      .skill-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .skill-btn {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 8px;
+        padding: 7px 7px;
+        touch-action: manipulation;
+        text-align: left;
+      }
+
+      .skill-btn:active {
+        background-color: #efe7d8;
+      }
+
+      .skill-mod {
+        font-size: 13px;
+        font-weight: 700;
+        color: #5c3d1e;
+        min-width: 22px;
+        flex-shrink: 0;
+      }
+
+      .skill-name {
+        font-size: 13px;
+        color: #2b2b2b;
+      }
+
+      .skill-toggle {
+        width: 26px;
+        height: 22px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        border: 1px solid #c9bda8;
+        background-color: #faf6ef;
+        color: #9b8f7e;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        padding: 0;
+      }
+
+      .skill-toggle.state-p {
+        background-color: #2b2b2b;
+        color: #ffffff;
+        border-color: #2b2b2b;
+      }
+
+      .skill-toggle.state-e {
+        background-color: #5c3d1e;
+        color: #ffffff;
+        border-color: #5c3d1e;
+      }
+
+      .skill-toggle:active {
+        opacity: 0.75;
+      }
+
+      /* ── Custom Rolls Modal ──────────────────────────────────── */
+      #cr-add-section {
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 14px;
+      }
+
+      #cr-name-input {
+        width: 100%;
+        border: 1px solid #c9bda8;
+        border-radius: 8px;
+        background-color: #faf6ef;
+        color: #2b2b2b;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 8px 10px;
+        margin-bottom: 10px;
+        font-family: Georgia;
+        box-sizing: border-box;
+      }
+
+      #cr-name-input::placeholder {
+        color: #b0a090;
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      #cr-name-input:focus {
+        outline: none;
+        border-color: #5c3d1e;
+      }
+
+      #cr-dice-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+
+      .cr-die-sel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        background-color: #faf6ef;
+        border-radius: 10px;
+        padding: 5px 4px;
+        border: 1px solid #3a3a3a;
+      }
+
+      .cr-die-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #3a3a3a;
+      }
+
+      .cr-die-counter {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .cr-counter-btn {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: none;
+        background-color: #2b2b2b;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        padding: 0;
+        line-height: 1;
+      }
+
+      .cr-counter-btn:active {
+        background-color: #555555;
+      }
+
+      .cr-die-count {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2b2b2b;
+        text-align: center;
+      }
+
+      #cr-mod-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      #cr-mod-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #3a3a3a;
+      }
+
+      #cr-add-btn {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        background-color: #2b2b2b;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+        touch-action: manipulation;
+        font-family: Georgia;
+      }
+
+      #cr-add-btn:active {
+        background-color: #444444;
+      }
+
+      #cr-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      #cr-empty-msg {
+        text-align: center;
+        color: #b0a090;
+        font-style: italic;
+        font-size: 14px;
+        padding: 12px 0;
+      }
+
+      .cr-roll-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 10px;
+        padding: 5px 10px;
+        cursor: default;
+        touch-action: manipulation;
+      }
+
+      .cr-roll-item:active {
+        background-color: #f5efe6;
+      }
+
+      .cr-info {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .cr-roll-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #2b2b2b;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .cr-roll-sub {
+        font-size: 11px;
+        color: #7a6e62;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .cr-delete-btn {
+        width: 23px;
+        height: 23px;
+        border-radius: 50%;
+        border: none;
+        background-color: #b10000;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        flex-shrink: 0;
+      }
+
+      .cr-delete-btn:active {
+        background-color: #cc0000;
+      }
+
+      /* ── History Modal ──────────────────────────────────── */
+      #hist-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      #hist-empty-msg {
+        text-align: center;
+        color: #b0a090;
+        font-style: italic;
+        font-size: 14px;
+        padding: 16px 0;
+      }
+
+      .hist-item {
+        background-color: #ffffff;
+        border: 1px solid #e6ddcf;
+        border-radius: 10px;
+        padding: 8px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .hist-item-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .hist-total {
+        font-size: 17px;
+        font-weight: 700;
+        color: #2b2b2b;
+      }
+
+      .hist-time {
+        font-size: 12px;
+        color: #b0a090;
+        flex-shrink: 0;
+      }
+
+      .hist-detail {
+        font-size: 12px;
+        color: #7a6e62;
+        word-break: break-word;
+      }
+
+      #hist-clear-btn {
+        border: 1px solid #c9bda8;
+        background-color: #efe7d8;
+        color: #3a3a3a;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 4px 10px;
+        touch-action: manipulation;
+        font-family: Georgia;
+      }
+
+      #hist-clear-btn:active {
+        background-color: #e0d5c0;
+      }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "D&D Dice Roller",
+        "url": "https://williamwolf92.github.io/dnd5e-dice-roller/",
+        "description": "A 3D tabletop RPG dice roller with realistic physics for D&D and other TTRPG systems.",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript and WebGL",
+        "inLanguage": "en",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "williamwolf92",
+          "url": "https://github.com/williamwolf92"
+        },
+        "image": "https://williamwolf92.github.io/dnd5e-dice-roller/assets/icon.png"
+      }
+    </script>
+  </head>
+  <body>
+    <div id="precache-toast">
+      <svg id="precache-ring" viewBox="0 0 40 40">
+        <circle class="precache-ring-bg" cx="20" cy="20" r="16"></circle>
+        <circle
+          class="precache-ring-fg"
+          id="precache-ring-fg"
+          cx="20"
+          cy="20"
+          r="16"
+        ></circle>
+      </svg>
+      <div id="precache-toast-copy">
+        <div id="precache-toast-text">Downloading resources...</div>
+        <div id="precache-toast-sub">0%</div>
+      </div>
     </div>
-    <div class="combat-round">Ronda <span id="combatRoundNum">1</span></div>
-    <button class="btn btn-next" id="nextBtnCombat" onclick="nextTurn()">▶ Iniciar</button>
-  </div>
-
-  <div id="sharedHeaderHistory" style="display:none;">
-    <select id="historyFilter" class="history-filter-select" onchange="applyHistoryFilter()">
-      <option value="all">Todos</option>
-    </select>
-    <button class="btn btn-cancel" id="btnClearHistory" onclick="clearHistory()" title="Clear history">🗑 Limpiar</button>
-  </div>
-
-</header>
-
-<!-- ────── HOME SCREEN ────── -->
-<div class="screen" id="screenHome">
-  <header class="home-header">
-    <h1>Dungeons &amp; Dragons</h1>
-    <div class="tagline">COMBAT TRACKER <span class="version">v3.2</span></div>
-    <div class="sword-icon">⚔️ 🏹 🔮 🛡</div>
-    <div class="ornament"></div>
-  </header>
-
-  <main class="home-main">
-    <div id="homeCustom">
-      <p class="home-intro">Te doy la bienvenida a <b>DnD Combat Tracker</b>.<br>Aquí tienes una guía rápida:</p><br>
-
-      <div class="home-section">
-        <div class="home-section-title"><b>⚔️ AÑADIR UN COMBATIENTE</b></div>
-        <p>• Ve a la pestaña ⚔️ <b>Combate</b> y pulsa <b>✦ Añadir</b> para agregar jugadores y monstruos. Introduce el nombre y selecciona una sugerencia si desea añadir un monstruo; en este caso, la <b>Iniciativa</b>, los <b>HP</b> y la <b>AC</b> se rellenan automáticamente.</p>
-        <p>• La <b>Iniciativa</b> acepta un número fijo (ej. <i>14</i>) o un modificador de bono (ej. <i>-2</i>/<i>+3</i>). Un modificador aplicará la <b>Regla de Iniciativa</b> seleccionada y la añadirá automáticamente junto con la <b>Ventaja</b> o <b>Desventaja</b> si corresponde.</p>
-        <p>• Los <b>HP</b> aceptan un número fijo, una tirada (<b><i>#d#</i></b>) o una tirada con bono (<i><b>#d#±#</b></i>).</p>
-        <p>• La <b>AC</b> solo acepta números fijos.</p>
-      </div>
-      
-      <div class="home-section">
-        <div class="home-section-title"><b>📋 FICHA DE MONSTRUOS</b></div>
-        <p>• Toca el nombre de un <b>monstruo</b> en la lista de combatientes para abrir su <b>Ficha de Estadísticas</b> (esta función ya está disponible pero por el momento las Fichas no lo están).</p>
-      </div>
-
-      <div class="home-section">
-        <div class="home-section-title"><b>❤️ MODIFICANDO LOS HP</b></div>
-        <p>• Toca el valor de ❤️ <b>HP</b> en una tarjeta de combatiente. Usa el teclado numérico para introducir un número fijo, una tirada (<i><b>#d#</b></i>) o una tirada con bono (<i><b>#d#±#</b></i>), y luego toca <b>Dañar</b> o <b>Curar</b>.</p>
-        <p>• Usa las opciones <b>Resistente</b> o <b>Vulnerable</b> para reducir a la mitad o duplicar el daño, respectivamente. Además, puedes usar <b>Resistente</b> para reducir a la mitad el daño si se supera una tirada de salvación.</p>
-        <p>• Como elemento visual, el valor de HP parpadea en rojo si cae por debajo de <b>20%</b>.</p>
-      </div>
-
-      <div class="home-section">
-        <div class="home-section-title"><b>🛡 TIRADAS DE ATAQUE</b></div>
-        <p>• Toca el valor de la 🛡 <b>AC</b> en una tarjeta para abrir el panel de Tirada de Ataque. Configura la bonificación y el tipo de ataque. El resultado mostrará <b>IMPACTO</b>, <b>FALLO</b> o <b>CRÍTICO</b>.</p>
-        <p>• Toca los botones <b>+/-</b> junto a la <b>AC</b> para modificar su valor.</p>
-      </div>
-
-      <div class="home-section">
-        <div class="home-section-title"><b>⚡ CONDICIONES</b></div>
-        <p>• Toca el botón <b>Cond.</b> (junto a la AC) para añadir Condiciones. Toca una Etiqueta de Condición para eliminarla.</p>
-      </div>
-      
-      <div class="home-section">
-        <div class="home-section-title"><b>🧿 CONCENTRACIÓN</b></div>
-        <p>• Toca la Etiqueta <b>Concentrado</b> para activar o desactivar la Concentración en un combatiente.</p>
-        <p>• Cuando un combatiente <b>concentrado</b> recibe daño, se abre un panel automáticamente: configura la <b>DC</b>, el <b>Mod. de Habilidad</b>, elige Ventaja o Desventaja si es necesario y, a continuación, pulsa <b>Tirada</b>. Si falla, pierde la Concentración.</p>
-      </div>
-      
-      <div class="home-section">
-        <div class="home-section-title"><b>☠️ SALVACIÓN DE MUERTE</b></div>
-        <p>• Cuando los HP de un combatiente llegan a <b>0</b>, éste cae <b>inconsciente</b> y debe realizar <b>Tiradas de Salvación de Muerte</b> en cada turno.</p>
-        <p>• Pulsa el ícono de 🖤️ <b>HP</b> en un combatiente activo (en turno) con 0 HP para abrir el panel de <b>Salvación de Muerte</b>. Elige Ventaja o Desventaja si corresponde y luego pulsa <b>Tirada</b>.</p>
-        <p>• Una tirada de <b>10 o más</b> cuenta como <b>Éxito</b>; una tirada de <b>9 o menos</b> cuenta como <b>Fallo</b>. Un <b>1 natural</b> añade 2 fallos. Un <b>20 natural</b> estabiliza inmediatamente al combatiente con 1 HP.</p>
-        <p>• Con <b>3 Éxitos</b>, el combatiente se estabiliza y <b>revive</b> con 1 HP. Con <b>3 Fallos</b>, el combatiente <b>muere</b> permanentemente.</p>
-        <p>• También puedes hacer un seguimiento manual de las salvaciones pulsando los íconos ❤️/🖤 en la tarjeta del combatiente, al hacerlo, aumenta en 1.</p>
-      </div>
-      
-      <div class="home-section">
-        <div class="home-section-title"><b>💾 IMPORTAR / EXPORTAR</b></div>
-        <p>• En la pantalla de Combate, usa los botones 💾 / 📁 para <b>exportar/importar</b> el estado actual del combate, con historial incluido.</p>
-        <p>• ⚠️<b>¡ATENCIÓN!</b> Importar datos de combate reemplazará <b>TODO</b> en la sesión actual, incluyendo el historial.</p>
-      </div>
-      
-      <div class="home-section">
-        <div class="home-section-title"><b>📧 CONTACTO</b></div>
-        <p>• ¿Tienes alguna duda o sugerencia?<br>Puedes enviarme un correo <a href="mailto:lamorrongadepapo@gmail.com?subject=DnD 5e Combat Tracker">aquí</a>.</p>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- ────── COMBAT SCREEN ────── -->
-<div class="screen" id="screenCombat" style="display:none;">
-  <main class="combat-main">
-    <div class="combatant-list" id="listCombat"></div>
-  </main>
-</div>
-
-<!-- ────── HISTORY SCREEN ────── -->
-<div class="screen" id="screenHistory" style="display:none;">
-  <main class="history-main">
-    <div class="history-log" id="historyLog">
-      <div class="empty-state">
-        <span class="empty-dragon">📜</span>
-        <h3>Historial vacío</h3>
-        <p>Los eventos se registrarán aquí</p>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- ──────────────────── FOOTER NAVIGATION ──────────────────── -->
-<footer class="app-footer">
-  <button class="footer-btn" onclick="switchScreen('screenHome')" id="btnHome">🏠 Inicio</button>
-  <button class="footer-btn" onclick="switchScreen('screenCombat')" id="btnCombat">⚔️ Combate</button>
-  <button class="footer-btn" onclick="switchScreen('screenHistory')" id="btnHistory">📋 Historial</button>
-  <button class="footer-btn" onclick="openRollModal()" id="btnRoll">🎲 Tirada</button>
-</footer>
-
-<!-- ──────────────────── ADD COMBATANT MODAL ──────────────────── -->
-<div class="overlay" id="addModal" onclick="ovrClick(event,'addModal')">
-  <div class="modal">
-    <div class="modal-title">✦ Agregar combatiente</div>
-
-    <div class="name-qty-row">
-      <div class="field" style="position:relative;flex:1;">
-        <label>Nombre</label>
-        <input id="a-name" type="text" oninput="onNameInput()" autocomplete="off">
-        <div id="monster-suggestions" class="monster-suggestions"></div>
-      </div>
-      <div class="field field-qty">
-  <label>Cant.</label>
-  <div class="init-wrap">
-    <input id="a-qty" type="number" value="1" min="1" max="20">
-  </div>
-</div>
-    </div>
-
-    <!-- Initiative Rule row -->
-    <div class="init-rule-row">
-      <div class="init-rule-group">
-        <div class="init-rule-label">Regla de Iniciativa</div>
-        <div class="init-rule-btns">
-          <button class="init-rule-btn active" id="initRuleRoll" onclick="setInitRule('roll')">Tirada + Inic.</button>
-          <button class="init-rule-btn" id="initRule10" onclick="setInitRule('ten')">10 + Inic.</button>
+    <div id="app">
+      <div id="dice-box-wrapper">
+        <div id="dice-box"></div>
+        <div id="empty-message">
+          WELCOME!<br /><br />Select your dice and tap "Roll".
         </div>
-      </div>
-      <div class="init-adv-group">
-        <div class="init-rule-label">Vent./Desv.</div>
-        <div class="init-rule-btns">
-          <button class="init-adv-btn" id="initAdvPlus" onclick="setInitAdv('plus')">+5</button>
-          <button class="init-adv-btn" id="initAdvMinus" onclick="setInitAdv('minus')">−5</button>
+        <div id="result-panel">
+          <div id="result-total"></div>
+          <div id="result-detail"></div>
         </div>
-      </div>
-    </div>
+        <div id="nat-toast"></div>
 
-    <div class="row">
-      <!-- DEX mod -->
-      <div class="field field-init">
-        <label>Inic.</label>
-        <div class="init-wrap">
-          <input id="a-init" type="text" oninput="filterInitInput(this)">
-        </div>
-      </div>
-
-      <!-- HP -->
-      <div class="field field-hp">
-        <label>HP</label>
-        <input id="a-hp" type="text" oninput="filterHpInput(this)">
-      </div>
-
-      <!-- AC -->
-      <div class="field field-ac">
-        <label>AC</label>
-        <input id="a-ac" type="text" min="1">
-      </div>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn btn-player" onclick="addCombatant('player')">🧙 Jugador</button>
-      <button class="btn btn-monster" onclick="addCombatant('monster')">👹 Monstruo</button>
-    </div>
-  </div>
-</div>
-
-<!-- ────── HP NUMPAD MODAL ────── -->
-<div class="overlay" id="hpModal" onclick="ovrHpClick(event)">
-  <div class="modal modal-hp">
-    <div class="modal-title">❤️ Modificar HP</div>
-    <div class="hp-display" id="hpDisp">_</div>
-    <div class="hp-results-list" id="hpResultsList"></div>
-    <div class="numpad">
-      <button class="np" onclick="npPress('1')">1</button>
-      <button class="np" onclick="npPress('2')">2</button>
-      <button class="np" onclick="npPress('3')">3</button>
-      <button class="np" onclick="npPress('4')">4</button>
-      <button class="np" onclick="npPress('5')">5</button>
-      <button class="np" onclick="npPress('6')">6</button>
-      <button class="np" onclick="npPress('7')">7</button>
-      <button class="np" onclick="npPress('8')">8</button>
-      <button class="np" onclick="npPress('9')">9</button>
-      <button class="np np-dice" onclick="npPress('d')">d</button>
-      <button class="np" onclick="npPress('0')">0</button>
-      <button class="np np-toggle" onclick="npPress('±')">±</button>
-      <div class="hp-mod-row">
-        <button class="hp-mod-btn hp-mod-resist" id="btnResist" onclick="hpModToggle('resist')">Resistente</button>
-        <button class="hp-mod-btn hp-mod-vuln"   id="btnVuln"   onclick="hpModToggle('vuln')">Vulnerable</button>
-      </div>
-      <button class="np np-minus" onclick="applyHP(-1)">Dañar</button>
-      <button class="np np-plus" onclick="applyHP(1)">Curar</button>
-      <button class="np np-clr" onclick="npBack()">Borrar</button>
-      <button class="np np-close" onclick="closeHpModal()">Cerrar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ────── STATUS CONDITIONS MODAL ────── -->
-<div class="overlay" id="statusModal" onclick="ovrClick(event,'statusModal')">
-  <div class="modal modal-status">
-    <div class="modal-title">⚡ Condiciones</div>
-    <div class="status-grid" id="statusGrid"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ok" onclick="applyStatuses()">Aplicar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ────── ATTACK MODAL ────── -->
-<div class="overlay" id="attackModal" onclick="ovrClick(event,'attackModal')">
-  <div class="modal modal-attack">
-    <div class="modal-title">⚔️ Tirada de Ataque</div>
-    
-    <div class="field">
-      <div class="attack-bonus-row">
-        <div class="bonus-stepper-wrapper">
-          <label class="field-label">Bono de Ataque</label>
-          <div class="bonus-stepper">
-            <button class="btn-stepper" onclick="attackBonusChange(-1)">−</button>
-            <input type="number" id="attackBonus" value="0">
-            <button class="btn-stepper" onclick="attackBonusChange(1)">+</button>
+        <!-- Roll Type Picker -->
+        <div id="roll-type-picker">
+          <div id="roll-type-title">🎲 Roll Type</div>
+          <div id="roll-type-label-text"></div>
+          <div id="roll-type-buttons">
+            <button class="rtp-btn" id="rtp-normal">Normal</button>
+            <button class="rtp-btn" id="rtp-advantage">Advan.</button>
+            <button class="rtp-btn" id="rtp-disadvantage">Disadv.</button>
           </div>
         </div>
-        <div class="attack-type-wrapper">
-          <label class="field-label">Tipo de Tirada</label>
-          <div class="attack-type-group">
-            <button class="attack-type-btn" data-type="advantage"    onclick="setAttackType('advantage')">Vent.</button>
-            <button class="attack-type-btn" data-type="disadvantage" onclick="setAttackType('disadvantage')">Desv.</button>
+      </div>
+
+      <div id="control-panel">
+        <div id="control-content">
+          <div id="dice-selectors">
+            <div class="die-selector" data-die="4">
+              <div class="die-label">d4</div>
+              <div class="die-counter">
+                <button class="counter-btn minus">-</button>
+                <div class="die-count">0</div>
+                <button class="counter-btn plus">+</button>
+              </div>
+            </div>
+            <div class="die-selector" data-die="6">
+              <div class="die-label">d6</div>
+              <div class="die-counter">
+                <button class="counter-btn minus">-</button>
+                <div class="die-count">0</div>
+                <button class="counter-btn plus">+</button>
+              </div>
+            </div>
+            <div class="die-selector" data-die="8">
+              <div class="die-label">d8</div>
+              <div class="die-counter">
+                <button class="counter-btn minus">-</button>
+                <div class="die-count">0</div>
+                <button class="counter-btn plus">+</button>
+              </div>
+            </div>
+            <div class="die-selector" data-die="10">
+              <div class="die-label">d10</div>
+              <div class="die-counter">
+                <button class="counter-btn minus">-</button>
+                <div class="die-count">0</div>
+                <button class="counter-btn plus">+</button>
+              </div>
+            </div>
+            <div class="die-selector" data-die="12">
+              <div class="die-label">d12</div>
+              <div class="die-counter">
+                <button class="counter-btn minus">-</button>
+                <div class="die-count">0</div>
+                <button class="counter-btn plus">+</button>
+              </div>
+            </div>
+            <div class="die-selector" data-die="20">
+              <div class="die-label">d20</div>
+              <div class="die-counter">
+                <button class="counter-btn minus">-</button>
+                <div class="die-count">0</div>
+                <button class="counter-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="extra-row">
+            <div id="modifier-selector" class="die-selector">
+              <div class="die-label">Mod.</div>
+              <div class="die-counter">
+                <button class="counter-btn minus" id="mod-minus">-</button>
+                <div class="die-count" id="mod-value">0</div>
+                <button class="counter-btn plus" id="mod-plus">+</button>
+              </div>
+            </div>
+            <button id="advantage-btn" class="extra-btn">Advantage</button>
+            <button id="disadvantage-btn" class="extra-btn">
+              Disadvantage
+            </button>
+          </div>
+
+          <div id="action-buttons">
+            <button id="clear-btn" class="action-btn">Clear</button>
+            <button id="roll-btn" class="action-btn">Roll</button>
+            <button id="d100-btn" class="action-btn">d100</button>
+          </div>
+        </div>
+        <!-- /#control-content -->
+
+        <!-- Floating config buttons -->
+        <div id="float-buttons">
+          <button class="float-btn" id="color-btn" title="Dice Color">🎨</button>
+          <button class="float-btn" id="skills-btn" title="Character Sheet">👤</button>
+          <button class="float-btn" id="savedrolls-btn" title="Saved Rolls">🎲</button>
+          <button class="float-btn" id="history-btn" title="History">📋</button>
+          <button class="float-btn" id="physics-btn" title="Physics">⚙️</button>
+          <button class="float-btn" id="info-btn" title="Information">ℹ️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Color Modal ─────────────────────────────────────────── -->
+    <div class="modal-overlay" id="color-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">🎨 Dice Color</span>
+          <button class="modal-close" data-modal="color-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="color-section-label">Custom Color</div>
+          <div id="color-picker-wrapper">
+            <div id="hue-slider">
+              <div id="hue-thumb"></div>
+            </div>
+            <div id="sv-box">
+              <div id="sv-thumb"></div>
+            </div>
+            <div id="color-result-wrap">
+              <div id="color-swatch"></div>
+              <div id="color-hex-label">#0070c0</div>
+            </div>
+          </div>
+
+          <hr id="gem-themes-divider" />
+          <div id="gem-themes-label">Gem Themes</div>
+          <div id="gem-themes-grid">
+            <!-- TEMA DE PRUEBA -->
+            <!-- <button class="gem-theme-btn" data-theme="prueba">
+              <div class="gem-dot" style="background: black;"></div>
+              PRUEBA
+            </button> -->
+            <!-- GEM THEMES -->
+            <button class="gem-theme-btn" data-theme="amber">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffe066, #c47a00);"></div>
+              Amber
+            </button>
+            <button class="gem-theme-btn" data-theme="amethyst">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #d09fff, #6b1ea0);"></div>
+              Amethyst
+            </button>
+            <button class="gem-theme-btn" data-theme="aquamarine">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #7ffff0, #007a6e);"></div>
+              Aquamarine
+            </button>
+            <button class="gem-theme-btn" data-theme="diamond">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffffff, #a0a0a0);"></div>
+              Diamond
+            </button>
+            <button class="gem-theme-btn" data-theme="emerald">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #7dfa9a, #006b25);"></div>
+              Emerald
+            </button>
+            <button class="gem-theme-btn" data-theme="onyx">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #6b6b6b, #111111);"></div>
+              Onyx
+            </button>
+            <button class="gem-theme-btn" data-theme="opal">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #85fcff, #eb13fa);"></div>
+              Opal
+            </button>
+            <button class="gem-theme-btn" data-theme="ruby">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ff7070, #8b0000);"></div>
+              Ruby
+            </button>
+            <button class="gem-theme-btn" data-theme="sapphire">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #7ab8ff, #001a7a);"></div>
+              Sapphire
+            </button>
+          </div>
+          <!-- DRAGON THEMES -->
+          <hr id="gem-themes-divider" />
+          <div id="gem-themes-label">Dragon Themes</div>
+          <div id="gem-themes-grid">
+            <button class="gem-theme-btn" data-theme="dragon_blue">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #c3c9ff, #0000ff);"></div>
+              Blue Dragon
+            </button>
+            <button class="gem-theme-btn" data-theme="dragon_green">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #a2ff90, #02a000);"></div>
+              Green Dragon
+            </button>
+            <button class="gem-theme-btn" data-theme="dragon_red">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ff9b9b, #8c0000);"></div>
+              Red Dragon
+            </button>
+          </div>
+          <!-- NEON THEMES -->
+          <hr id="gem-themes-divider" />
+          <div id="gem-themes-label">Neon Themes</div>
+          <div id="gem-themes-grid">
+            <button class="gem-theme-btn" data-theme="neon_blue">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #00ffff, #0000ff);"></div>
+              Blue Neon
+            </button>
+            <button class="gem-theme-btn" data-theme="neon_green">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #c7ffce, #008e10);"></div>
+              Green Neon
+            </button>
+            <button class="gem-theme-btn" data-theme="neon_orange">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffd77d, #dd8500);"></div>
+              Orange Neon
+            </button>
+            <button class="gem-theme-btn" data-theme="neon_pink">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffc0fc, #f100e5);"></div>
+              Pink Neon
+            </button>
+            <button class="gem-theme-btn" data-theme="neon_red">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffbfbf, #ff1e1e);"></div>
+              Red Neon
+            </button>
+            <button class="gem-theme-btn" data-theme="neon_white">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffffff, #a0a0a0);"></div>
+              White Neon
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="attack-result" id="attackResult">
-      <div class="result-message" id="resultMessage"><span class="attack-ready-msg">Listo para Atacar</span></div>
-      <div class="result-formula" id="resultFormula"></div>
-    </div>
-
-    <div class="modal-actions" style="margin-top:20px;">
-      <button class="btn btn-ok" onclick="executeAttack()">⚔️ Atacar</button>
-      <button class="btn btn-cancel" onclick="closeModal('attackModal')">Cerrar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ────── ROLL MODAL ────── -->
-<div class="overlay" id="rollModal" onclick="ovrRollClick(event)">
-  <div class="modal modal-roll">
-    <div class="modal-title">🎲 Lanzar Dados</div>
-    <div class="roll-display" id="rollDisplay">_</div>
-    <div class="roll-results-list" id="rollResultsList"></div>
-    <div class="numpad">
-      <button class="np" onclick="rollPress('1')">1</button>
-      <button class="np" onclick="rollPress('2')">2</button>
-      <button class="np" onclick="rollPress('3')">3</button>
-      <button class="np" onclick="rollPress('4')">4</button>
-      <button class="np" onclick="rollPress('5')">5</button>
-      <button class="np" onclick="rollPress('6')">6</button>
-      <button class="np" onclick="rollPress('7')">7</button>
-      <button class="np" onclick="rollPress('8')">8</button>
-      <button class="np" onclick="rollPress('9')">9</button>
-      <button class="np np-dice" onclick="rollPress('d')">d</button>
-      <button class="np" onclick="rollPress('0')">0</button>
-      <button class="np np-toggle" onclick="rollPress('±')">±</button>
-      <div class="roll-adv-row">
-        <button class="roll-adv-btn" id="rollAdvBtn-advantage"    onclick="setRollAdvType('advantage')">Ventaja</button>
-        <button class="roll-adv-btn" id="rollAdvBtn-disadvantage" onclick="setRollAdvType('disadvantage')">Desventaja</button>
-      </div>
-      <button class="np np-roll" onclick="rollExecute()" style="grid-column: span 2;">🎲 Lanzar</button>
-      <button class="np np-clr" onclick="rollBack()">Borrar</button>
-      <button class="np np-close" onclick="closeRollModal()">Cerrar</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- ────── DEATH SAVE MODAL ────── -->
-<div class="overlay" id="deathSaveModal" onclick="ovrClick(event,'deathSaveModal')">
-  <div class="modal modal-deathsave">
-    <div class="modal-title">☠️ SALVACIÓN DE MUERTE</div>
-    <div class="deathsave-text">¿Desea hacer una tirada de Salvación de Muerte?</div>
-    <div class="deathsave-adv-group">
-      <button class="deathsave-adv-btn" id="dsAdvBtn-advantage"    onclick="setDeathSaveAdv('advantage')">Ventaja</button>
-      <button class="deathsave-adv-btn" id="dsAdvBtn-disadvantage" onclick="setDeathSaveAdv('disadvantage')">Desventaja</button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ok" onclick="rollDeathSave()">Tirada</button>
-      <button class="btn btn-cancel" onclick="closeModal('deathSaveModal')">Cancelar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ────── CON SAVE MODAL ────── -->
-<div class="overlay" id="conSaveModal">
-  <div class="modal modal-consave">
-    <div class="modal-title">🎯 Salvar Concentración</div>
-    <div class="consave-name-label" id="conSaveNameLabel"></div>
-    <div class="consave-row">
-      <div class="consave-col">
-        <label class="field-label">DC</label>
-        <div class="bonus-stepper">
-          <button class="btn-stepper" onclick="conSaveDCStep(-1)">−</button>
-          <input type="number" id="cs-dc" value="10" min="1" max="30">
-          <button class="btn-stepper" onclick="conSaveDCStep(1)">+</button>
+    <!-- ── Physics Modal ───────────────────────────────────────── -->
+    <div class="modal-overlay" id="physics-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">⚙️ Physics</span>
+          <button class="modal-close" data-modal="physics-modal">✕</button>
         </div>
-      </div>
-      <div class="consave-col">
-        <label class="field-label">Mod. de Habilidad</label>
-        <div class="bonus-stepper">
-          <button class="btn-stepper" onclick="conSaveStep(-1)">−</button>
-          <input type="number" id="cs-con" value="0" min="-10" max="10">
-          <button class="btn-stepper" onclick="conSaveStep(1)">+</button>
+        <div class="modal-body">
+          <div class="param-row-pair">
+            <div class="param-card">
+              <span class="param-card-label">📏 Size</span>
+              <button class="param-card-value" id="scale-value">Medium</button>
+            </div>
+            <div class="param-card">
+              <span class="param-card-label">🌑 Gravity</span>
+              <button class="param-card-value" id="gravity-value">Normal</button>
+            </div>
+          </div>
+          <div class="param-row-pair">
+            <div class="param-card">
+              <span class="param-card-label">🥌 Friction</span>
+              <button class="param-card-value" id="friction-value">On</button>
+            </div>
+            <div class="param-card">
+              <span class="param-card-label">🏀 Bounce</span>
+              <button class="param-card-value" id="restitution-value">Normal</button>
+            </div>
+          </div>
+          <div class="param-row-pair">
+            <div class="param-card">
+              <span class="param-card-label">💡 Light</span>
+              <button class="param-card-value" id="light-value">Dim</button>
+            </div>
+            <div class="param-card" id="shadow-card">
+              <span class="param-card-label">🔲 Shadow</span>
+              <button class="param-card-value" id="shadow-value">On</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="consave-adv-group" style="margin-top:12px;">
-      <button class="consave-adv-btn" id="csAdvBtn-advantage"    onclick="setConSaveAdv('advantage')">Ventaja</button>
-      <button class="consave-adv-btn" id="csAdvBtn-disadvantage" onclick="setConSaveAdv('disadvantage')">Desventaja</button>
-    </div>
-    <div class="modal-actions" style="margin-top:20px;">
-      <button class="btn btn-ok" onclick="executeConSave()">🎲 Tirada</button>
-    </div>
-  </div>
-</div>
 
-<!-- ────── NOTES MODAL ────── -->
-<div class="overlay" id="notesModal" onclick="ovrClick(event,'notesModal')">
-  <div class="modal modal-notes">
-    <div class="modal-title">📝 Notas</div>
-    <div class="notes-name-label" id="notesNameLabel"></div>
-    <textarea id="notes-textarea" class="notes-textarea" placeholder="Escribe una nota para este combatiente..."></textarea>
-    <div class="modal-actions" style="margin-top:16px;">
-      <button class="btn btn-ok" onclick="saveNote()">Guardar</button>
-      <button class="btn btn-cancel" onclick="closeModal('notesModal')">Cancelar</button>
+    <!-- ── Skills Modal ────────────────────────────────────────── -->
+    <div class="modal-overlay" id="skills-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">👤 Character Sheet</span>
+          <div class="modal-header-actions">
+            <button
+              class="modal-icon-btn"
+              id="char-export-btn"
+              title="Export data"
+            >
+              💾
+            </button>
+            <button
+              class="modal-icon-btn"
+              id="char-import-btn"
+              title="Import data"
+            >
+              📁
+            </button>
+            <input
+              type="file"
+              id="char-import-file"
+              accept="application/json,.json"
+              style="display: none"
+            />
+            <button class="modal-close" data-modal="skills-modal">✕</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <!-- Sección 0a: Name -->
+          <div class="skills-section">
+            <div class="charsheet-field full">
+              <span class="charsheet-label">Name</span>
+              <input
+                type="text"
+                id="char-name-input"
+                class="charsheet-input"
+                placeholder="Character name"
+              />
+            </div>
+          </div>
+
+          <!-- Sección 0b: Level / HP / HP máximo -->
+          <div class="skills-section">
+            <div class="charsheet-row">
+              <div class="charsheet-field half">
+                <span class="charsheet-label">Level</span>
+                <input
+                  type="number"
+                  id="char-level-input"
+                  class="charsheet-input"
+                  min="1"
+                  value="1"
+                />
+              </div>
+              <div class="charsheet-field half">
+                <span class="charsheet-label">HP</span>
+                <div class="hp-combo">
+                  <button class="hp-btn" id="hp-minus">-</button>
+                  <div class="hp-display">
+                    <button class="hp-current" id="hp-current">0</button>
+                    <span class="hp-slash">/</span>
+                    <input
+                      type="number"
+                      id="hp-max-input"
+                      class="hp-max-input"
+                      min="0"
+                      value="0"
+                    />
+                  </div>
+                  <button class="hp-btn" id="hp-plus">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección 1: AC / Initiative / Speed / Passive P. / Prof. Bonus / Hit Dice -->
+          <div class="skills-section">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">AC</div>
+                <div class="stat-value-row">
+                  <button class="ability-btn-small" id="ac-minus">-</button>
+                  <div class="stat-value" id="ac-value">10</div>
+                  <button class="ability-btn-small" id="ac-plus">+</button>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Initiative</div>
+                <div class="stat-value-row">
+                  <button class="ability-btn-small" id="init-minus">-</button>
+                  <button class="stat-value clickable" id="init-value">
+                    +0
+                  </button>
+                  <button class="ability-btn-small" id="init-plus">+</button>
+                </div>
+              </div>
+              <div class="stat-card">
+                <button class="stat-label clickable" id="speed-label">
+                  Speed
+                </button>
+                <div class="stat-value-row">
+                  <button class="ability-btn-small" id="speed-minus">-</button>
+                  <div class="stat-value" id="speed-value">30</div>
+                  <button class="ability-btn-small" id="speed-plus">+</button>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Passive P.</div>
+                <div class="stat-value-row">
+                  <button class="ability-btn-small" id="pp-minus">-</button>
+                  <div class="stat-value" id="pp-value">10</div>
+                  <button class="ability-btn-small" id="pp-plus">+</button>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Prof. Bonus</div>
+                <div class="stat-value-row">
+                  <button class="ability-btn-small" id="prof-bonus-minus">
+                    -
+                  </button>
+                  <div class="stat-value" id="prof-bonus-value">+2</div>
+                  <button class="ability-btn-small" id="prof-bonus-plus">
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">
+                  Hit Dice
+                  <button class="hitdice-type-btn" id="hitdice-type">d8</button>
+                </div>
+                <div class="stat-value-row">
+                  <button class="ability-btn-small" id="hitdice-minus">
+                    -
+                  </button>
+                  <button class="stat-value clickable" id="hitdice-value">
+                    1
+                  </button>
+                  <button class="ability-btn-small" id="hitdice-plus">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección 2: Habilidades -->
+          <div class="skills-section">
+            <div class="skills-section-title">Abilities</div>
+            <div class="ability-grid">
+              <div class="ability-card" data-ability="STR">
+                <div class="ability-label">STR</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="ability-score-STR">10</div>
+                  <div class="ability-mod" id="ability-mod-STR">+0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small ability-minus"
+                    data-ability="STR"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small ability-plus"
+                    data-ability="STR"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card" data-ability="DEX">
+                <div class="ability-label">DEX</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="ability-score-DEX">10</div>
+                  <div class="ability-mod" id="ability-mod-DEX">+0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small ability-minus"
+                    data-ability="DEX"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small ability-plus"
+                    data-ability="DEX"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card" data-ability="CON">
+                <div class="ability-label">CON</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="ability-score-CON">10</div>
+                  <div class="ability-mod" id="ability-mod-CON">+0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small ability-minus"
+                    data-ability="CON"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small ability-plus"
+                    data-ability="CON"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card" data-ability="INT">
+                <div class="ability-label">INT</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="ability-score-INT">10</div>
+                  <div class="ability-mod" id="ability-mod-INT">+0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small ability-minus"
+                    data-ability="INT"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small ability-plus"
+                    data-ability="INT"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card" data-ability="WIS">
+                <div class="ability-label">WIS</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="ability-score-WIS">10</div>
+                  <div class="ability-mod" id="ability-mod-WIS">+0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small ability-minus"
+                    data-ability="WIS"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small ability-plus"
+                    data-ability="WIS"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card" data-ability="CHA">
+                <div class="ability-label">CHA</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="ability-score-CHA">10</div>
+                  <div class="ability-mod" id="ability-mod-CHA">+0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small ability-minus"
+                    data-ability="CHA"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small ability-plus"
+                    data-ability="CHA"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección 3: Tiradas de salvación -->
+          <div class="skills-section">
+            <div class="skills-section-title">Saving Throws</div>
+            <div class="save-grid">
+              <div class="save-card">
+                <div class="save-label">STR</div>
+                <button
+                  class="save-roll-btn"
+                  id="save-mod-STR"
+                  data-ability="STR"
+                >
+                  +0
+                </button>
+                <input
+                  type="checkbox"
+                  class="save-prof-checkbox"
+                  data-ability="STR"
+                  title="Proficient"
+                />
+              </div>
+              <div class="save-card">
+                <div class="save-label">DEX</div>
+                <button
+                  class="save-roll-btn"
+                  id="save-mod-DEX"
+                  data-ability="DEX"
+                >
+                  +0
+                </button>
+                <input
+                  type="checkbox"
+                  class="save-prof-checkbox"
+                  data-ability="DEX"
+                  title="Proficient"
+                />
+              </div>
+              <div class="save-card">
+                <div class="save-label">CON</div>
+                <button
+                  class="save-roll-btn"
+                  id="save-mod-CON"
+                  data-ability="CON"
+                >
+                  +0
+                </button>
+                <input
+                  type="checkbox"
+                  class="save-prof-checkbox"
+                  data-ability="CON"
+                  title="Proficient"
+                />
+              </div>
+              <div class="save-card">
+                <div class="save-label">INT</div>
+                <button
+                  class="save-roll-btn"
+                  id="save-mod-INT"
+                  data-ability="INT"
+                >
+                  +0
+                </button>
+                <input
+                  type="checkbox"
+                  class="save-prof-checkbox"
+                  data-ability="INT"
+                  title="Proficient"
+                />
+              </div>
+              <div class="save-card">
+                <div class="save-label">WIS</div>
+                <button
+                  class="save-roll-btn"
+                  id="save-mod-WIS"
+                  data-ability="WIS"
+                >
+                  +0
+                </button>
+                <input
+                  type="checkbox"
+                  class="save-prof-checkbox"
+                  data-ability="WIS"
+                  title="Proficient"
+                />
+              </div>
+              <div class="save-card">
+                <div class="save-label">CHA</div>
+                <button
+                  class="save-roll-btn"
+                  id="save-mod-CHA"
+                  data-ability="CHA"
+                >
+                  +0
+                </button>
+                <input
+                  type="checkbox"
+                  class="save-prof-checkbox"
+                  data-ability="CHA"
+                  title="Proficient"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección 4: Skills -->
+          <div class="skills-section">
+            <div class="skills-section-title">Skills</div>
+            <div class="skills-columns">
+              <div class="skills-column">
+                <div class="skill-group">
+                  <div class="skill-group-title">STR</div>
+                  <div class="skill-row" data-skill="athletics">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-athletics">+0</span>
+                      <span class="skill-name">Athletics</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                </div>
+
+                <div class="skill-group">
+                  <div class="skill-group-title">DEX</div>
+                  <div class="skill-row" data-skill="acrobatics">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-acrobatics"
+                        >+0</span
+                      >
+                      <span class="skill-name">Acrobatics</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="sleight">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-sleight">+0</span>
+                      <span class="skill-name">Sleight of Hand</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="stealth">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-stealth">+0</span>
+                      <span class="skill-name">Stealth</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                </div>
+
+                <div class="skill-group">
+                  <div class="skill-group-title">INT</div>
+                  <div class="skill-row" data-skill="arcana">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-arcana">+0</span>
+                      <span class="skill-name">Arcana</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="history">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-history">+0</span>
+                      <span class="skill-name">History</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="investigation">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-investigation"
+                        >+0</span
+                      >
+                      <span class="skill-name">Investigation</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="nature">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-nature">+0</span>
+                      <span class="skill-name">Nature</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="religion">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-religion">+0</span>
+                      <span class="skill-name">Religion</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skills-column">
+                <div class="skill-group">
+                  <div class="skill-group-title">WIS</div>
+                  <div class="skill-row" data-skill="animal">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-animal">+0</span>
+                      <span class="skill-name">Animal Handling</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="insight">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-insight">+0</span>
+                      <span class="skill-name">Insight</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="medicine">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-medicine">+0</span>
+                      <span class="skill-name">Medicine</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="perception">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-perception"
+                        >+0</span
+                      >
+                      <span class="skill-name">Perception</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="survival">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-survival">+0</span>
+                      <span class="skill-name">Survival</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                </div>
+
+                <div class="skill-group">
+                  <div class="skill-group-title">CHA</div>
+                  <div class="skill-row" data-skill="deception">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-deception">+0</span>
+                      <span class="skill-name">Deception</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="intimidation">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-intimidation"
+                        >+0</span
+                      >
+                      <span class="skill-name">Intimidation</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="performance">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-performance"
+                        >+0</span
+                      >
+                      <span class="skill-name">Performance</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                  <div class="skill-row" data-skill="persuasion">
+                    <button class="skill-btn">
+                      <span class="skill-mod" id="skill-mod-persuasion"
+                        >+0</span
+                      >
+                      <span class="skill-name">Persuasion</span>
+                    </button>
+                    <button class="skill-toggle">•</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- ────── DELETE CONFIRMATION MODAL ────── -->
-<div class="overlay" id="deleteConfirmModal" onclick="ovrClick(event,'deleteConfirmModal')">
-  <div class="modal modal-confirm">
-    <div class="confirm-text">¿Quitar combatiente(s)?</div>
-    <div class="delete-btn-grid">
-      <button class="btn del-btn del-btn-this" onclick="confirmDelete('this')">Este</button>
-      <button class="btn del-btn del-btn-all" onclick="confirmDelete('all')">Todos</button>
-      <button class="btn del-btn del-btn-players" onclick="confirmDelete('players')">Jugadores</button>
-      <button class="btn del-btn del-btn-monsters" onclick="confirmDelete('monsters')">Monstruos</button>
+    <!-- ── Custom Rolls Modal ────────────────────────────────────── -->
+    <div class="modal-overlay" id="customrolls-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">🎲 Custom Rolls</span>
+          <button class="modal-close" data-modal="customrolls-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="cr-add-section">
+            <input
+              type="text"
+              id="cr-name-input"
+              placeholder="Roll name…"
+              maxlength="40"
+            />
+            <div id="cr-dice-grid">
+              <div class="cr-die-sel" data-die="4">
+                <div class="cr-die-label">d4</div>
+                <div class="cr-die-count">0</div>
+                <div class="cr-die-counter">
+                  <button class="cr-counter-btn cr-minus">-</button>
+                  <button class="cr-counter-btn cr-plus">+</button>
+                </div>
+              </div>
+              <div class="cr-die-sel" data-die="6">
+                <div class="cr-die-label">d6</div>
+                <div class="cr-die-count">0</div>
+                <div class="cr-die-counter">
+                  <button class="cr-counter-btn cr-minus">-</button>
+                  <button class="cr-counter-btn cr-plus">+</button>
+                </div>
+              </div>
+              <div class="cr-die-sel" data-die="8">
+                <div class="cr-die-label">d8</div>
+                <div class="cr-die-count">0</div>
+                <div class="cr-die-counter">
+                  <button class="cr-counter-btn cr-minus">-</button>
+                  <button class="cr-counter-btn cr-plus">+</button>
+                </div>
+              </div>
+              <div class="cr-die-sel" data-die="10">
+                <div class="cr-die-label">d10</div>
+                <div class="cr-die-count">0</div>
+                <div class="cr-die-counter">
+                  <button class="cr-counter-btn cr-minus">-</button>
+                  <button class="cr-counter-btn cr-plus">+</button>
+                </div>
+              </div>
+              <div class="cr-die-sel" data-die="12">
+                <div class="cr-die-label">d12</div>
+                <div class="cr-die-count">0</div>
+                <div class="cr-die-counter">
+                  <button class="cr-counter-btn cr-minus">-</button>
+                  <button class="cr-counter-btn cr-plus">+</button>
+                </div>
+              </div>
+              <div class="cr-die-sel" data-die="20">
+                <div class="cr-die-label">d20</div>
+                <div class="cr-die-count">0</div>
+                <div class="cr-die-counter">
+                  <button class="cr-counter-btn cr-minus">-</button>
+                  <button class="cr-counter-btn cr-plus">+</button>
+                </div>
+              </div>
+            </div>
+            <div id="cr-mod-row">
+              <span id="cr-mod-label">Modifier</span>
+              <button class="cr-counter-btn" id="cr-mod-minus">-</button>
+              <div class="cr-die-count" id="cr-mod-value">0</div>
+              <button class="cr-counter-btn" id="cr-mod-plus">+</button>
+            </div>
+            <button id="cr-add-btn">+ Add Roll</button>
+          </div>
+
+          <div id="cr-list"></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- ────── COMBAT END MODAL ────── -->
-<div class="overlay" id="combatEndModal">
-  <div class="modal modal-confirm">
-    <span class="cup-icon">🏆</span>
-    <span class="fallen-name">¡Victoria!</span>
-    <p style="font-size:17px;margin-top:6px;">Todos los monstruos derrotados</p>
-    <div class="modal-actions" style="margin-top:24px;">
-      <button class="btn btn-ok" onclick="closeCombatEnd()">Continuar</button>
+    <!-- ── Info Modal ──────────────────────────────────────────────────────── -->
+    <div class="modal-overlay" id="info-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">ℹ️ Information</span>
+          <button class="modal-close" data-modal="info-modal">✕</button>
+        </div>
+        <div class="modal-body" style="padding: 0; overflow: hidden">
+          <iframe
+            id="info-iframe"
+            src=""
+            data-src="info.html"
+            style="width: 100%; min-height: 68vh; border: none; display: block"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- ────── COMBAT DEFEAT MODAL ────── -->
-<div class="overlay" id="combatDefeatModal">
-  <div class="modal modal-confirm">
-    <span class="cup-icon">☠️</span>
-    <span class="fallen-name">Derrota</span>
-    <p style="font-size:17px;margin-top:6px;">Todos los jugadores derrotados</p>
-    <div class="modal-actions" style="margin-top:24px;">
-      <button class="btn btn-cancel" onclick="closeCombatDefeat()">Continuar</button>
+    <!-- ── History Modal ─────────────────────────────────────────── -->
+    <div class="modal-overlay" id="history-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title">📋 Roll History</span>
+          <div class="modal-header-actions">
+            <button id="hist-clear-btn">Clear</button>
+            <button class="modal-close" data-modal="history-modal">✕</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div id="hist-list"></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- ────── STAT BLOCK MODAL ────── -->
-<div class="overlay" id="statblockModal" onclick="ovrClick(event,'statblockModal')">
-  <div class="modal modal-statblock">
-    <div id="statblockContent"></div>
-  </div>
-</div>
-
-<!-- ────── EXPORT MODAL ────── -->
-<div class="overlay" id="exportModal" onclick="ovrClick(event,'exportModal')">
-  <div class="modal modal-export">
-    <div class="modal-title">💾 Exportar Combate</div>
-    <div class="field">
-      <label>Nombre de archivo</label>
-      <input id="export-filename" type="text" placeholder="combate" autocomplete="off"
-             onkeydown="if(event.key==='Enter')doExport()">
+    <!-- ── HP mini modal (floating) ────────────────────────────── -->
+    <div id="hp-mini-backdrop"></div>
+    <div id="hp-mini-modal">
+      <div id="hp-mini-title">Adjust HP</div>
+      <input type="number" id="hp-mini-input" min="0" />
+      <div id="hp-mini-buttons">
+        <button class="hp-mini-btn" id="hp-mini-minus">Damage</button>
+        <button class="hp-mini-btn" id="hp-mini-plus">Heal</button>
+      </div>
     </div>
-    <p class="export-hint">La fecha y hora actual se agregarán automáticamente al nombre del archivo. Este archivo se guarda en tu carpeta de Descargas.</p>
-    <div class="modal-actions">
-      <button class="btn btn-ok" onclick="doExport()">💾 Exportar</button>
-      <button class="btn btn-cancel" onclick="closeModal('exportModal')">Cancelar</button>
-    </div>
-  </div>
-</div>
 
-<!-- ────── IMPORT CONFIRMATION MODAL ────── -->
-<div class="overlay" id="importConfirmModal" onclick="ovrClick(event,'importConfirmModal')">
-  <div class="modal modal-confirm">
-    <div class="confirm-text">⚠️ Importar un archivo <b>reemplazará TODA la sesión actual</b>. Esta acción no se puede deshacer.<br><br>¿Desea continuar?</div>
-    <div class="modal-actions">
-      <button class="btn btn-ok" onclick="doImport()">Si, Importar</button>
-      <button class="btn btn-cancel" onclick="closeModal('importConfirmModal')">Cancelar</button>
-    </div>
-  </div>
-</div>
+    <script type="module">
+      import DiceBox from "./engine/dice-box.es.min.js";
 
-<div id="toast"></div>
+      const emptyMessage = document.getElementById("empty-message");
+      const resultPanel = document.getElementById("result-panel");
+      const resultTotal = document.getElementById("result-total");
+      const resultDetail = document.getElementById("result-detail");
+      const natToast = document.getElementById("nat-toast");
+      const rollBtn = document.getElementById("roll-btn");
+      const clearBtn = document.getElementById("clear-btn");
+      const d100Btn = document.getElementById("d100-btn");
 
-<script src="script.js"></script>
-</body>
+      // ── Persistence (localStorage) ──────────────────────────────────────────
+      const STORAGE_KEY = "dnd-dice-roller-state-v1";
+
+      function loadSavedState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : {};
+        } catch (_) {
+          return {};
+        }
+      }
+
+      const savedState = loadSavedState();
+
+      // Restore dice counters and modifier directly on the DOM (elements already exist)
+      if (savedState.counts) {
+        document.querySelectorAll(".die-selector[data-die]").forEach((sel) => {
+          const die = sel.getAttribute("data-die");
+          if (savedState.counts[die] != null) {
+            sel.querySelector(".die-count").textContent =
+              savedState.counts[die];
+          }
+        });
+      }
+      if (savedState.modifier != null) {
+        document.getElementById("mod-value").textContent = savedState.modifier;
+      }
+
+      function saveState() {
+        const counts = {};
+        document.querySelectorAll(".die-selector[data-die]").forEach((sel) => {
+          counts[sel.getAttribute("data-die")] = parseInt(
+            sel.querySelector(".die-count").textContent,
+            10,
+          );
+        });
+        const state = {
+          diceSettings,
+          abilityScores,
+          saveProficient,
+          skillProficiency,
+          profBonus,
+          customRolls,
+          rollHistory,
+          counts,
+          modifier: parseInt(
+            document.getElementById("mod-value").textContent,
+            10,
+          ),
+          charName,
+          charLevel,
+          hp,
+          hpMax,
+          ac,
+          initiative,
+          speedValues,
+          activeSpeedLabel,
+          passivePerception,
+          hitDiceType,
+          hitDiceCurrent,
+        };
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (_) {
+          /* storage unavailable, ignore */
+        }
+      }
+
+      let pendingMode = "normal";
+      let pendingModifier = 0;
+      let pendingLabel = "";
+
+      // ── Step definitions ──────────────────────────────────────────────────────
+      const SCALE_STEPS = [
+        { label: "Small", value: 6 },
+        { label: "Medium", value: 10 },
+        { label: "Large", value: 15 },
+      ];
+      const GRAVITY_STEPS = [
+        { label: "Zero", value: 0 },
+        { label: "Soft", value: 1 },
+        { label: "Normal", value: 10 },
+      ];
+      const FRICTION_STEPS = [
+        { label: "Off", value: 0 },
+        { label: "On", value: 1 },
+      ];
+      const RESTITUTION_STEPS = [
+        { label: "Off", value: 0 },
+        { label: "Normal", value: 0.8 },
+        { label: "High", value: 1 },
+      ];
+      const LIGHT_STEPS = [
+        { label: "Dim", value: 1.5 },
+        { label: "Bright", value: 5 },
+        { label: "Intense", value: 10 },
+      ];
+      const SHADOW_STEPS = [
+        { label: "Off", value: false },
+        { label: "On", value: true },
+      ];
+
+      function findStepIndex(steps, value) {
+        const idx = steps.findIndex((s) => s.value === value);
+        return idx >= 0 ? idx : 0;
+      }
+
+      // ── Mutable settings ──────────────────────────────────────────────────────
+      const diceSettings = Object.assign(
+        {
+          themeColor: "#1e22a8",
+          theme: "smooth",
+          scale: 10,
+          gravity: 10,
+          friction: 1,
+          restitution: 0.8,
+          lightIntensity: 1.5,
+          enableShadows: true,
+        },
+        savedState.diceSettings || {},
+      );
+
+      let settingsChanged = false;
+
+      // ── DiceBox factory & init ────────────────────────────────────────────────
+      const themeBase = new URL("themes/", window.location.href).href;
+      const engineOrigin = new URL("engine/", window.location.href).href;
+
+      function makeDiceBox() {
+        return new DiceBox({
+          container: "#dice-box",
+          assetPath: "assets/",
+          origin: engineOrigin,
+          theme: diceSettings.theme || "smooth",
+          externalThemes: {
+            prueba: themeBase + "prueba/",
+            smooth: themeBase + "smooth/",
+            // Gem Themes
+            amber: themeBase + "amber/",
+            amethyst: themeBase + "amethyst/",
+            aquamarine: themeBase + "aquamarine/",
+            diamond: themeBase + "diamond/",
+            emerald: themeBase + "emerald/",
+            onyx: themeBase + "onyx/",
+            opal: themeBase + "opal/",
+            ruby: themeBase + "ruby/",
+            sapphire: themeBase + "sapphire/",
+            // Dragon Themes
+            dragon_blue: themeBase + "dragon_blue/",
+            dragon_green: themeBase + "dragon_green/",
+            dragon_red: themeBase + "dragon_red/",
+            // Neon Themes
+            neon_blue: themeBase + "neon_blue/",
+            neon_green: themeBase + "neon_green/",
+            neon_orange: themeBase + "neon_orange/",
+            neon_pink: themeBase + "neon_pink/",
+            neon_red: themeBase + "neon_red/",
+            neon_white: themeBase + "neon_white/",
+          },
+          themeColor: diceSettings.themeColor,
+          delay: 100,
+          scale: diceSettings.scale,
+          gravity: diceSettings.gravity,
+          friction: diceSettings.friction,
+          restitution: diceSettings.restitution,
+          throwForce: 5,
+          spinForce: 10,
+          lightIntensity: diceSettings.lightIntensity,
+          enableShadows: diceSettings.enableShadows,
+          startingHeight: 15,
+          settleTimeout: 5000,
+          onRollComplete: (results) => {
+            showResults(results, pendingMode, pendingModifier);
+          },
+        });
+      }
+
+      let diceBox = makeDiceBox();
+      let ready = false;
+
+      diceBox.init().then(() => {
+        ready = true;
+      });
+
+      async function reinitDiceBox() {
+        ready = false;
+        try {
+          diceBox.clear();
+        } catch (_) {}
+        document.getElementById("dice-box").innerHTML = "";
+        diceBox = makeDiceBox();
+        await diceBox.init();
+        ready = true;
+        settingsChanged = false;
+      }
+
+      // ── Modal helpers ─────────────────────────────────────────────────────────
+      function openModal(id) {
+        document.getElementById(id).classList.add("open");
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("open");
+        if (settingsChanged) {
+          resultPanel.classList.remove("show");
+          natToast.classList.remove("show");
+          emptyMessage.style.display = "block";
+          reinitDiceBox();
+        }
+      }
+
+      document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) closeModal(overlay.id);
+        });
+      });
+
+      document.querySelectorAll(".modal-close").forEach((btn) => {
+        btn.addEventListener("click", () => closeModal(btn.dataset.modal));
+      });
+
+      document
+        .getElementById("color-btn")
+        .addEventListener("click", () => openModal("color-modal"));
+      document
+        .getElementById("physics-btn")
+        .addEventListener("click", () => openModal("physics-modal"));
+      document
+        .getElementById("skills-btn")
+        .addEventListener("click", () => openModal("skills-modal"));
+      document
+        .getElementById("savedrolls-btn")
+        .addEventListener("click", () => {
+          renderCustomRolls();
+          openModal("customrolls-modal");
+        });
+      document.getElementById("info-btn").addEventListener("click", () => {
+        const iframe = document.getElementById("info-iframe");
+        if (!iframe.getAttribute("src"))
+          iframe.setAttribute("src", iframe.dataset.src);
+        openModal("info-modal");
+      });
+
+      // ── Color picker ──────────────────────────────────────────────────────────
+      const hueSlider = document.getElementById("hue-slider");
+      const hueThumb = document.getElementById("hue-thumb");
+      const svBox = document.getElementById("sv-box");
+      const svThumb = document.getElementById("sv-thumb");
+      const colorSwatch = document.getElementById("color-swatch");
+      const colorHexLabel = document.getElementById("color-hex-label");
+
+      let pickerHue = 0,
+        pickerSat = 100,
+        pickerVal = 100;
+
+      function hexToHsv(hex) {
+        let r = parseInt(hex.slice(1, 3), 16) / 255;
+        let g = parseInt(hex.slice(3, 5), 16) / 255;
+        let b = parseInt(hex.slice(5, 7), 16) / 255;
+        const max = Math.max(r, g, b),
+          min = Math.min(r, g, b);
+        const d = max - min;
+        let h = 0;
+        if (d !== 0) {
+          if (max === r) h = ((g - b) / d) % 6;
+          else if (max === g) h = (b - r) / d + 2;
+          else h = (r - g) / d + 4;
+          h *= 60;
+          if (h < 0) h += 360;
+        }
+        const s = max === 0 ? 0 : d / max;
+        const v = max;
+        return { h, s: s * 100, v: v * 100 };
+      }
+
+      function hsvToHex(h, s, v) {
+        s /= 100;
+        v /= 100;
+        const c = v * s;
+        const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+        const m = v - c;
+        let r = 0,
+          g = 0,
+          b = 0;
+        if (h < 60) {
+          r = c;
+          g = x;
+          b = 0;
+        } else if (h < 120) {
+          r = x;
+          g = c;
+          b = 0;
+        } else if (h < 180) {
+          r = 0;
+          g = c;
+          b = x;
+        } else if (h < 240) {
+          r = 0;
+          g = x;
+          b = c;
+        } else if (h < 300) {
+          r = x;
+          g = 0;
+          b = c;
+        } else {
+          r = c;
+          g = 0;
+          b = x;
+        }
+        const toHex = (n) =>
+          Math.round((n + m) * 255)
+            .toString(16)
+            .padStart(2, "0");
+        return "#" + toHex(r) + toHex(g) + toHex(b);
+      }
+
+      function updatePickerUI() {
+        hueThumb.style.top = (pickerHue / 360) * 100 + "%";
+        svBox.style.backgroundColor = "hsl(" + pickerHue + ",100%,50%)";
+        svThumb.style.left = pickerSat + "%";
+        svThumb.style.top = 100 - pickerVal + "%";
+      }
+
+      // Called while dragging: pickerHue/pickerSat/pickerVal are already the source
+      // of truth, so we never recompute them from the resulting hex (that would lose
+      // the hue whenever saturation or value hits 0, i.e. pure white/black).
+      function setColorFromPicker() {
+        const hex = hsvToHex(pickerHue, pickerSat, pickerVal);
+        diceSettings.theme = "smooth";
+        diceSettings.themeColor = hex;
+        colorSwatch.style.backgroundColor = hex;
+        colorHexLabel.textContent = hex;
+        settingsChanged = true;
+        updatePickerUI();
+        document
+          .querySelectorAll(".gem-theme-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+      }
+
+      // Called on initial load with a stored hex value: here we DO need to derive
+      // hue/sat/val, since that's the only info we have.
+      function loadColor(hex) {
+        diceSettings.themeColor = hex;
+        colorSwatch.style.backgroundColor = hex;
+        colorHexLabel.textContent = hex;
+        const hsv = hexToHsv(hex);
+        pickerHue = hsv.h;
+        pickerSat = hsv.s;
+        pickerVal = hsv.v;
+        updatePickerUI();
+      }
+
+      function applyGemTheme(themeName) {
+        diceSettings.theme = themeName;
+        settingsChanged = true;
+        document.querySelectorAll(".gem-theme-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.theme === themeName);
+        });
+        saveState();
+      }
+
+      function pointFromEvent(e) {
+        return e.touches && e.touches.length ? e.touches[0] : e;
+      }
+
+      function bindDrag(el, onMove) {
+        let dragging = false;
+        function move(e) {
+          if (!dragging) return;
+          const rect = el.getBoundingClientRect();
+          const point = pointFromEvent(e);
+          const x = Math.min(
+            Math.max(point.clientX - rect.left, 0),
+            rect.width,
+          );
+          const y = Math.min(
+            Math.max(point.clientY - rect.top, 0),
+            rect.height,
+          );
+          onMove(x / rect.width, y / rect.height);
+          e.preventDefault();
+        }
+        function start(e) {
+          dragging = true;
+          move(e);
+        }
+        function end() {
+          if (!dragging) return;
+          dragging = false;
+          saveState();
+        }
+        el.addEventListener("mousedown", start);
+        el.addEventListener("touchstart", start, { passive: false });
+        window.addEventListener("mousemove", move);
+        window.addEventListener("touchmove", move, { passive: false });
+        window.addEventListener("mouseup", end);
+        window.addEventListener("touchend", end);
+      }
+
+      bindDrag(hueSlider, (xFrac, yFrac) => {
+        pickerHue = yFrac * 360;
+        setColorFromPicker();
+      });
+
+      bindDrag(svBox, (xFrac, yFrac) => {
+        pickerSat = xFrac * 100;
+        pickerVal = (1 - yFrac) * 100;
+        setColorFromPicker();
+      });
+
+      document.querySelectorAll(".gem-theme-btn").forEach((btn) => {
+        btn.addEventListener("click", () => applyGemTheme(btn.dataset.theme));
+      });
+
+      // Seed UI with current color, then restore gem theme if applicable, then reset dirty flag
+      loadColor(diceSettings.themeColor);
+      if (diceSettings.theme && diceSettings.theme !== "smooth") {
+        document.querySelectorAll(".gem-theme-btn").forEach((btn) => {
+          btn.classList.toggle(
+            "active",
+            btn.dataset.theme === diceSettings.theme,
+          );
+        });
+      }
+      settingsChanged = false;
+
+      // ── Physics param cards (cycle through steps on tap) ────────────────────────
+      function setupParamCard(cardId, valueLabelId, steps, getter, setter) {
+        const valueLabel = document.getElementById(valueLabelId);
+
+        let idx = findStepIndex(steps, getter());
+        valueLabel.textContent = steps[idx].label;
+
+        valueLabel.addEventListener("click", () => {
+          idx = (idx + 1) % steps.length;
+          valueLabel.textContent = steps[idx].label;
+          setter(steps[idx].value);
+          settingsChanged = true;
+          saveState();
+        });
+      }
+
+      setupParamCard(
+        "scale-card",
+        "scale-value",
+        SCALE_STEPS,
+        () => diceSettings.scale,
+        (v) => {
+          diceSettings.scale = v;
+        },
+      );
+      setupParamCard(
+        "gravity-card",
+        "gravity-value",
+        GRAVITY_STEPS,
+        () => diceSettings.gravity,
+        (v) => {
+          diceSettings.gravity = v;
+        },
+      );
+      setupParamCard(
+        "friction-card",
+        "friction-value",
+        FRICTION_STEPS,
+        () => diceSettings.friction,
+        (v) => {
+          diceSettings.friction = v;
+        },
+      );
+      setupParamCard(
+        "restitution-card",
+        "restitution-value",
+        RESTITUTION_STEPS,
+        () => diceSettings.restitution,
+        (v) => {
+          diceSettings.restitution = v;
+        },
+      );
+      setupParamCard(
+        "light-card",
+        "light-value",
+        LIGHT_STEPS,
+        () => diceSettings.lightIntensity,
+        (v) => {
+          diceSettings.lightIntensity = v;
+        },
+      );
+      setupParamCard(
+        "shadow-card",
+        "shadow-value",
+        SHADOW_STEPS,
+        () => diceSettings.enableShadows,
+        (v) => {
+          diceSettings.enableShadows = v;
+        },
+      );
+
+      // ── Skills modal: labeled d20 roll (saving throws / skill checks) ──────────
+      function showRollTypePicker() {
+        document.getElementById("roll-type-label-text").textContent =
+          pendingLabel;
+        document.getElementById("roll-type-picker").classList.add("show");
+      }
+
+      function hideRollTypePicker() {
+        document.getElementById("roll-type-picker").classList.remove("show");
+      }
+
+      function rollWithLabel(label, modifier) {
+        if (!ready) return;
+        pendingLabel = label;
+        pendingModifier = modifier;
+        showRollTypePicker();
+      }
+
+      function executeLabeledRoll(mode) {
+        hideRollTypePicker();
+        pendingMode = mode;
+        emptyMessage.style.display = "none";
+        resultPanel.classList.remove("show");
+        natToast.classList.remove("show");
+        diceBox.clear();
+        const qty =
+          mode === "labeled-advantage" || mode === "labeled-disadvantage"
+            ? 2
+            : 1;
+        diceBox.roll([{ qty, sides: 20 }]);
+      }
+
+      document
+        .getElementById("rtp-normal")
+        .addEventListener("click", () => executeLabeledRoll("labeled"));
+      document
+        .getElementById("rtp-advantage")
+        .addEventListener("click", () =>
+          executeLabeledRoll("labeled-advantage"),
+        );
+      document
+        .getElementById("rtp-disadvantage")
+        .addEventListener("click", () =>
+          executeLabeledRoll("labeled-disadvantage"),
+        );
+
+      // ── Skills modal: data ───────────────────────────────────────────────────
+      const ABILITIES = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
+
+      const abilityScores = Object.assign(
+        { STR: 10, DEX: 10, CON: 10, INT: 10, WIS: 10, CHA: 10 },
+        savedState.abilityScores || {},
+      );
+      const saveProficient = Object.assign(
+        {
+          STR: false,
+          DEX: false,
+          CON: false,
+          INT: false,
+          WIS: false,
+          CHA: false,
+        },
+        savedState.saveProficient || {},
+      );
+
+      const PROF_BONUS_VALUES = [2, 3, 4, 5, 6];
+      let profBonus =
+        savedState.profBonus != null &&
+        PROF_BONUS_VALUES.includes(savedState.profBonus)
+          ? savedState.profBonus
+          : 2;
+
+      // ── CharacterSheet: core stats ─────────────────────────────────────────
+      let charName = savedState.charName || "";
+      let charLevel =
+        savedState.charLevel != null && savedState.charLevel >= 1
+          ? savedState.charLevel
+          : 1;
+      let hp = savedState.hp != null ? savedState.hp : 0;
+      let hpMax = savedState.hpMax != null ? savedState.hpMax : 0;
+      let ac = savedState.ac != null ? savedState.ac : 10;
+      let initiative =
+        savedState.initiative != null ? savedState.initiative : 0;
+
+      const SPEED_LABELS = ["Speed", "Fly", "Climb", "Swim", "Burrow"];
+      const speedValues = Object.assign(
+        { Speed: 30, Fly: 0, Climb: 0, Swim: 0, Burrow: 0 },
+        savedState.speedValues || {},
+      );
+      let activeSpeedLabel = SPEED_LABELS.includes(savedState.activeSpeedLabel)
+        ? savedState.activeSpeedLabel
+        : "Speed";
+
+      let passivePerception =
+        savedState.passivePerception != null
+          ? savedState.passivePerception
+          : 10;
+
+      const HITDICE_TYPES = ["d6", "d8", "d10", "d12"];
+      let hitDiceType = HITDICE_TYPES.includes(savedState.hitDiceType)
+        ? savedState.hitDiceType
+        : "d8";
+      let hitDiceCurrent =
+        savedState.hitDiceCurrent != null
+          ? savedState.hitDiceCurrent
+          : charLevel;
+
+      const SKILLS = [
+        { id: "athletics", name: "Athletics check", ability: "STR" },
+        { id: "acrobatics", name: "Acrobatics check", ability: "DEX" },
+        { id: "sleight", name: "Sleight of Hand check", ability: "DEX" },
+        { id: "stealth", name: "Stealth check", ability: "DEX" },
+        { id: "arcana", name: "Arcana check", ability: "INT" },
+        { id: "history", name: "History check", ability: "INT" },
+        { id: "investigation", name: "Investigation check", ability: "INT" },
+        { id: "nature", name: "Nature check", ability: "INT" },
+        { id: "religion", name: "Religion check", ability: "INT" },
+        { id: "animal", name: "Animal Handling check", ability: "WIS" },
+        { id: "insight", name: "Insight check", ability: "WIS" },
+        { id: "medicine", name: "Medicine check", ability: "WIS" },
+        { id: "perception", name: "Perception check", ability: "WIS" },
+        { id: "survival", name: "Survival check", ability: "WIS" },
+        { id: "deception", name: "Deception check", ability: "CHA" },
+        { id: "intimidation", name: "Intimidation check", ability: "CHA" },
+        { id: "performance", name: "Performance check", ability: "CHA" },
+        { id: "persuasion", name: "Persuasion check", ability: "CHA" },
+      ];
+
+      const skillProficiency = {}; // id -> null | "P" | "E"
+      SKILLS.forEach((s) => {
+        skillProficiency[s.id] = null;
+      });
+      Object.assign(skillProficiency, savedState.skillProficiency || {});
+
+      function getAbilityMod(ability) {
+        return Math.floor((abilityScores[ability] - 10) / 2);
+      }
+
+      function formatMod(mod) {
+        return mod >= 0 ? `+${mod}` : `${mod}`;
+      }
+
+      function renderAbility(ability) {
+        document.getElementById(`ability-score-${ability}`).textContent =
+          abilityScores[ability];
+        document.getElementById(`ability-mod-${ability}`).textContent =
+          formatMod(getAbilityMod(ability));
+        renderSave(ability);
+        SKILLS.filter((s) => s.ability === ability).forEach((s) =>
+          renderSkill(s.id),
+        );
+      }
+
+      function renderSave(ability) {
+        const mod =
+          getAbilityMod(ability) + (saveProficient[ability] ? profBonus : 0);
+        document.getElementById(`save-mod-${ability}`).textContent =
+          formatMod(mod);
+      }
+
+      function renderSkill(skillId) {
+        const skill = SKILLS.find((s) => s.id === skillId);
+        const bonus =
+          skillProficiency[skillId] === "P"
+            ? profBonus
+            : skillProficiency[skillId] === "E"
+              ? profBonus * 2
+              : 0;
+        const mod = getAbilityMod(skill.ability) + bonus;
+        document.getElementById(`skill-mod-${skillId}`).textContent =
+          formatMod(mod);
+      }
+
+      function updateSkillToggleUI(skillId) {
+        const row = document.querySelector(
+          `.skill-row[data-skill="${skillId}"]`,
+        );
+        const btn = row.querySelector(".skill-toggle");
+        const state = skillProficiency[skillId]; // null | "P" | "E"
+        btn.textContent = state || "•";
+        btn.classList.remove("state-p", "state-e");
+        if (state === "P") btn.classList.add("state-p");
+        if (state === "E") btn.classList.add("state-e");
+      }
+
+      // ── CharacterSheet: render functions ────────────────────────────────────
+      function renderCharName() {
+        document.getElementById("char-name-input").value = charName;
+      }
+
+      function clampHitDice() {
+        if (hitDiceCurrent > charLevel) hitDiceCurrent = charLevel;
+        if (hitDiceCurrent < 0) hitDiceCurrent = 0;
+      }
+
+      function renderCharLevel() {
+        document.getElementById("char-level-input").value = charLevel;
+        clampHitDice();
+        renderHitDice();
+      }
+
+      function renderHP() {
+        document.getElementById("hp-current").textContent = hp;
+        document.getElementById("hp-max-input").value = hpMax;
+      }
+
+      function renderAC() {
+        document.getElementById("ac-value").textContent = ac;
+      }
+
+      function renderInitiative() {
+        document.getElementById("init-value").textContent =
+          formatMod(initiative);
+      }
+
+      function renderSpeed() {
+        document.getElementById("speed-label").textContent = activeSpeedLabel;
+        document.getElementById("speed-value").textContent =
+          speedValues[activeSpeedLabel];
+      }
+
+      function renderPassivePerception() {
+        document.getElementById("pp-value").textContent = passivePerception;
+      }
+
+      function renderHitDice() {
+        document.getElementById("hitdice-value").textContent = hitDiceCurrent;
+        document.getElementById("hitdice-type").textContent = hitDiceType;
+      }
+
+      // Name / Level
+      document
+        .getElementById("char-name-input")
+        .addEventListener("input", (e) => {
+          charName = e.target.value;
+          saveState();
+        });
+
+      document
+        .getElementById("char-level-input")
+        .addEventListener("input", (e) => {
+          let v = parseInt(e.target.value, 10);
+          if (isNaN(v) || v < 1) v = 1;
+          charLevel = v;
+          clampHitDice();
+          renderHitDice();
+          saveState();
+        });
+      document
+        .getElementById("char-level-input")
+        .addEventListener("blur", (e) => {
+          e.target.value = charLevel;
+        });
+
+      // HP / HP max
+      document.getElementById("hp-max-input").addEventListener("input", (e) => {
+        let v = parseInt(e.target.value, 10);
+        if (isNaN(v) || v < 0) v = 0;
+        hpMax = v;
+        if (hp > hpMax) hp = hpMax;
+        document.getElementById("hp-current").textContent = hp;
+        saveState();
+      });
+      document.getElementById("hp-max-input").addEventListener("blur", (e) => {
+        e.target.value = hpMax;
+      });
+
+      document.getElementById("hp-minus").addEventListener("click", () => {
+        hp = Math.max(0, hp - 1);
+        renderHP();
+        saveState();
+      });
+      document.getElementById("hp-plus").addEventListener("click", () => {
+        hp = Math.min(hpMax, hp + 1);
+        renderHP();
+        saveState();
+      });
+
+      // HP mini modal (floating +/- adjuster)
+      function openHpMiniModal() {
+        document.getElementById("hp-mini-input").value = "";
+        document.getElementById("hp-mini-modal").classList.add("show");
+        document.getElementById("hp-mini-backdrop").classList.add("show");
+      }
+      function closeHpMiniModal() {
+        document.getElementById("hp-mini-modal").classList.remove("show");
+        document.getElementById("hp-mini-backdrop").classList.remove("show");
+      }
+
+      document
+        .getElementById("hp-current")
+        .addEventListener("click", openHpMiniModal);
+      document
+        .getElementById("hp-mini-backdrop")
+        .addEventListener("click", closeHpMiniModal);
+
+      document.getElementById("hp-mini-minus").addEventListener("click", () => {
+        const v =
+          parseInt(document.getElementById("hp-mini-input").value, 10) || 0;
+        hp = Math.max(0, hp - v);
+        renderHP();
+        saveState();
+        closeHpMiniModal();
+      });
+      document.getElementById("hp-mini-plus").addEventListener("click", () => {
+        const v =
+          parseInt(document.getElementById("hp-mini-input").value, 10) || 0;
+        hp = Math.min(hpMax, hp + v);
+        renderHP();
+        saveState();
+        closeHpMiniModal();
+      });
+
+      // AC
+      document.getElementById("ac-minus").addEventListener("click", () => {
+        ac--;
+        renderAC();
+        saveState();
+      });
+      document.getElementById("ac-plus").addEventListener("click", () => {
+        ac++;
+        renderAC();
+        saveState();
+      });
+
+      // Initiative
+      document.getElementById("init-minus").addEventListener("click", () => {
+        if (initiative > -10) {
+          initiative--;
+          renderInitiative();
+          saveState();
+        }
+      });
+      document.getElementById("init-plus").addEventListener("click", () => {
+        if (initiative < 10) {
+          initiative++;
+          renderInitiative();
+          saveState();
+        }
+      });
+      document.getElementById("init-value").addEventListener("click", () => {
+        closeModal("skills-modal");
+        rollWithLabel("Initiative", initiative);
+      });
+
+      // Speed (cycles Speed / Fly / Climb / Swim / Burrow)
+      document.getElementById("speed-label").addEventListener("click", () => {
+        const idx = SPEED_LABELS.indexOf(activeSpeedLabel);
+        activeSpeedLabel = SPEED_LABELS[(idx + 1) % SPEED_LABELS.length];
+        renderSpeed();
+        saveState();
+      });
+      document.getElementById("speed-minus").addEventListener("click", () => {
+        speedValues[activeSpeedLabel] = Math.max(
+          0,
+          speedValues[activeSpeedLabel] - 5,
+        );
+        renderSpeed();
+        saveState();
+      });
+      document.getElementById("speed-plus").addEventListener("click", () => {
+        speedValues[activeSpeedLabel] += 5;
+        renderSpeed();
+        saveState();
+      });
+
+      // Passive Perception
+      document.getElementById("pp-minus").addEventListener("click", () => {
+        if (passivePerception > 0) passivePerception--;
+        renderPassivePerception();
+        saveState();
+      });
+      document.getElementById("pp-plus").addEventListener("click", () => {
+        passivePerception++;
+        renderPassivePerception();
+        saveState();
+      });
+
+      // Hit Dice
+      document.getElementById("hitdice-minus").addEventListener("click", () => {
+        if (hitDiceCurrent > 0) {
+          hitDiceCurrent--;
+          renderHitDice();
+          saveState();
+        }
+      });
+      document.getElementById("hitdice-plus").addEventListener("click", () => {
+        if (hitDiceCurrent < charLevel) {
+          hitDiceCurrent++;
+          renderHitDice();
+          saveState();
+        }
+      });
+      document.getElementById("hitdice-type").addEventListener("click", () => {
+        const idx = HITDICE_TYPES.indexOf(hitDiceType);
+        hitDiceType = HITDICE_TYPES[(idx + 1) % HITDICE_TYPES.length];
+        renderHitDice();
+        saveState();
+      });
+      document.getElementById("hitdice-value").addEventListener("click", () => {
+        if (!ready || hitDiceCurrent <= 0) return;
+        hitDiceCurrent--;
+        renderHitDice();
+        saveState();
+        closeModal("skills-modal");
+        const sides = parseInt(hitDiceType.slice(1), 10);
+        pendingMode = "hitdice";
+        pendingModifier = getAbilityMod("CON");
+        emptyMessage.style.display = "none";
+        resultPanel.classList.remove("show");
+        natToast.classList.remove("show");
+        diceBox.clear();
+        diceBox.roll([{ qty: 1, sides }]);
+      });
+
+      // Initial render
+      ABILITIES.forEach(renderAbility);
+      SKILLS.forEach((s) => updateSkillToggleUI(s.id));
+      renderCharName();
+      renderCharLevel();
+      renderHP();
+      renderAC();
+      renderInitiative();
+      renderSpeed();
+      renderPassivePerception();
+      renderHitDice();
+
+      // Prof. Bonus control
+      function renderProfBonus() {
+        document.getElementById("prof-bonus-value").textContent =
+          `+${profBonus}`;
+      }
+
+      function refreshAllBonuses() {
+        ABILITIES.forEach((a) => renderSave(a));
+        SKILLS.forEach((s) => renderSkill(s.id));
+      }
+
+      renderProfBonus();
+
+      document
+        .getElementById("prof-bonus-minus")
+        .addEventListener("click", () => {
+          const idx = PROF_BONUS_VALUES.indexOf(profBonus);
+          if (idx > 0) {
+            profBonus = PROF_BONUS_VALUES[idx - 1];
+            renderProfBonus();
+            refreshAllBonuses();
+            saveState();
+          }
+        });
+
+      document
+        .getElementById("prof-bonus-plus")
+        .addEventListener("click", () => {
+          const idx = PROF_BONUS_VALUES.indexOf(profBonus);
+          if (idx < PROF_BONUS_VALUES.length - 1) {
+            profBonus = PROF_BONUS_VALUES[idx + 1];
+            renderProfBonus();
+            refreshAllBonuses();
+            saveState();
+          }
+        });
+
+      // Ability +/- buttons
+      document.querySelectorAll(".ability-minus").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const ability = btn.dataset.ability;
+          if (abilityScores[ability] > 8) {
+            abilityScores[ability]--;
+            renderAbility(ability);
+            saveState();
+          }
+        });
+      });
+
+      document.querySelectorAll(".ability-plus").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const ability = btn.dataset.ability;
+          if (abilityScores[ability] < 30) {
+            abilityScores[ability]++;
+            renderAbility(ability);
+            saveState();
+          }
+        });
+      });
+
+      // Saving throw proficiency checkboxes
+      document.querySelectorAll(".save-prof-checkbox").forEach((chk) => {
+        chk.checked = !!saveProficient[chk.dataset.ability];
+        chk.addEventListener("change", () => {
+          const ability = chk.dataset.ability;
+          saveProficient[ability] = chk.checked;
+          renderSave(ability);
+          saveState();
+        });
+      });
+
+      // Saving throw roll buttons
+      document.querySelectorAll(".save-roll-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const ability = btn.dataset.ability;
+          const mod =
+            getAbilityMod(ability) + (saveProficient[ability] ? profBonus : 0);
+          closeModal("skills-modal");
+          rollWithLabel(`Saving Throw (${ability})`, mod);
+        });
+      });
+
+      // Skill proficiency toggle (single button, cycles • → P → E → •)
+      const SKILL_CYCLE = [null, "P", "E"];
+      document.querySelectorAll(".skill-toggle").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const skillId = btn.closest(".skill-row").dataset.skill;
+          const idx = SKILL_CYCLE.indexOf(skillProficiency[skillId]);
+          skillProficiency[skillId] =
+            SKILL_CYCLE[(idx + 1) % SKILL_CYCLE.length];
+          updateSkillToggleUI(skillId);
+          renderSkill(skillId);
+          saveState();
+        });
+      });
+
+      // Skill roll buttons
+      document.querySelectorAll(".skill-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const skillId = btn.closest(".skill-row").dataset.skill;
+          const skill = SKILLS.find((s) => s.id === skillId);
+          const bonus =
+            skillProficiency[skillId] === "P"
+              ? profBonus
+              : skillProficiency[skillId] === "E"
+                ? profBonus * 2
+                : 0;
+          const mod = getAbilityMod(skill.ability) + bonus;
+          closeModal("skills-modal");
+          rollWithLabel(`${skill.name}`, mod);
+        });
+      });
+
+      // ── Modifier ──────────────────────────────────────────────────────────────
+      const modValueEl = document.getElementById("mod-value");
+      const modMinusBtn = document.getElementById("mod-minus");
+      const modPlusBtn = document.getElementById("mod-plus");
+      const advantageBtn = document.getElementById("advantage-btn");
+      const disadvantageBtn = document.getElementById("disadvantage-btn");
+
+      modMinusBtn.addEventListener("click", () => {
+        modValueEl.textContent = parseInt(modValueEl.textContent, 10) - 1;
+        saveState();
+      });
+      modPlusBtn.addEventListener("click", () => {
+        modValueEl.textContent = parseInt(modValueEl.textContent, 10) + 1;
+        saveState();
+      });
+
+      function getModifier() {
+        return parseInt(modValueEl.textContent, 10);
+      }
+
+      // ── Dice helpers ──────────────────────────────────────────────────────────
+      function getCounts() {
+        const counts = {};
+        document.querySelectorAll(".die-selector[data-die]").forEach((sel) => {
+          const die = sel.getAttribute("data-die");
+          const count = parseInt(
+            sel.querySelector(".die-count").textContent,
+            10,
+          );
+          if (count > 0) counts[die] = count;
+        });
+        return counts;
+      }
+
+      function buildNotation(counts) {
+        return Object.keys(counts).map((die) => ({
+          qty: counts[die],
+          sides: parseInt(die, 10),
+        }));
+      }
+
+      // ── Results ───────────────────────────────────────────────────────────────
+      let natMessages = null;
+
+      async function loadNatMessages() {
+        try {
+          const res = await fetch("assets/nat-text.json");
+          if (res.ok) natMessages = await res.json();
+        } catch (e) {
+          natMessages = null;
+        }
+      }
+      loadNatMessages();
+
+      function pickNatMessage(category, fallback) {
+        const list = natMessages?.[category];
+        if (list && list.length > 0) {
+          return list[Math.floor(Math.random() * list.length)];
+        }
+        return fallback;
+      }
+
+      let natToastTimer = null;
+
+      function updateNatToast(value) {
+        clearTimeout(natToastTimer);
+        natToast.classList.remove("show", "nat-fail", "nat-success");
+        if (value === 1) {
+          natToast.innerHTML = pickNatMessage("nat1", "Nat. 1").replace(
+            /\n/g,
+            "<br>",
+          );
+          natToast.classList.add("show", "nat-fail");
+        } else if (value === 20) {
+          natToast.innerHTML = pickNatMessage("nat20", "Nat. 20").replace(
+            /\n/g,
+            "<br>",
+          );
+          natToast.classList.add("show", "nat-success");
+        } else {
+          natToast.textContent = "";
+          return;
+        }
+        natToastTimer = setTimeout(() => {
+          natToast.classList.remove("show");
+        }, 5000);
+      }
+
+      function showResults(results, mode, modifier) {
+        let total = 0;
+        const groups = {};
+
+        results.forEach((group) => {
+          group.rolls.forEach((die) => {
+            const sides = die.sides;
+            if (!groups[sides]) groups[sides] = [];
+            groups[sides].push(die.value);
+          });
+        });
+
+        let detailParts;
+        let natValue = null;
+
+        if (mode === "advantage" || mode === "disadvantage") {
+          const values = groups[20] || [];
+          const chosen =
+            mode === "advantage" ? Math.max(...values) : Math.min(...values);
+          total = chosen + modifier;
+          natValue = chosen;
+          const label = mode === "advantage" ? "Advantage" : "Disadvantage";
+          let line = `${label}: ${values.join("/")} – ${chosen}`;
+          if (modifier !== 0) {
+            const sign = modifier > 0 ? "+" : "";
+            line += ` (${sign}${modifier})`;
+          }
+          detailParts = [line];
+        } else if (mode === "labeled") {
+          const values = groups[20] || [];
+          const rolled = values[0] ?? 0;
+          total = rolled + modifier;
+          natValue = rolled;
+          const sign = modifier >= 0 ? "+" : "";
+          detailParts = [`${pendingLabel}: ${rolled} (${sign}${modifier})`];
+        } else if (
+          mode === "labeled-advantage" ||
+          mode === "labeled-disadvantage"
+        ) {
+          const values = groups[20] || [];
+          const chosen =
+            mode === "labeled-advantage"
+              ? Math.max(...values)
+              : Math.min(...values);
+          total = chosen + modifier;
+          natValue = chosen;
+          const tag = mode === "labeled-advantage" ? "Adv" : "Dis";
+          const sign = modifier >= 0 ? "+" : "";
+          detailParts = [
+            `${pendingLabel} [${tag}]: ${values.join("/")} – ${chosen} (${sign}${modifier})`,
+          ];
+        } else if (mode === "percentile") {
+          const d100Values = groups[100] || [];
+          const value = d100Values[0] === 0 ? 100 : (d100Values[0] ?? 100);
+          total = value;
+          const isHundred = total === 100;
+          const tensVal = isHundred ? 0 : Math.floor(total / 10) * 10;
+          const unitsVal = isHundred ? 0 : total % 10;
+          const tensDisplay = String(tensVal).padStart(2, "0");
+          detailParts = [`Percentile: ${tensDisplay} + ${unitsVal}`];
+        } else if (mode === "hitdice") {
+          const sidesKey = Object.keys(groups)[0];
+          const rolled = groups[sidesKey][0];
+          const healed = rolled + modifier;
+          hp = Math.max(0, Math.min(hpMax, hp + healed));
+          renderHP();
+          saveState();
+          total = healed;
+          const sign = modifier >= 0 ? "+" : "";
+          detailParts = [
+            `Hit Dice (d${sidesKey}): ${rolled} (${sign}${modifier} CON) – HP ${hp}/${hpMax}`,
+          ];
+        } else {
+          Object.keys(groups).forEach((sides) => {
+            groups[sides].forEach((value) => {
+              total += value;
+            });
+          });
+          total += modifier;
+          detailParts = Object.keys(groups)
+            .sort((a, b) => a - b)
+            .map((sides) => `d${sides}: ${groups[sides].join("+")}`);
+          if (modifier !== 0) {
+            const sign = modifier > 0 ? "+" : "";
+            detailParts.push(`Mod: ${sign}${modifier}`);
+          }
+          if (
+            groups[20] &&
+            groups[20].length === 1 &&
+            Object.keys(groups).length === 1
+          ) {
+            natValue = groups[20][0];
+          }
+        }
+
+        resultTotal.textContent = `Total: ${total}`;
+        resultDetail.textContent = detailParts.join("   |   ");
+        resultPanel.classList.add("show");
+        updateNatToast(natValue);
+        addToHistory(`Total: ${total}`, detailParts.join("   |   "));
+      }
+
+      // ── Roll ──────────────────────────────────────────────────────────────────
+      function doRoll(notation, mode) {
+        if (!ready) return;
+        pendingMode = mode;
+        pendingModifier = getModifier();
+
+        emptyMessage.style.display = "none";
+        resultPanel.classList.remove("show");
+        natToast.classList.remove("show");
+        diceBox.clear();
+        diceBox.roll(notation);
+      }
+
+      // ── Counter buttons ───────────────────────────────────────────────────────
+      document.querySelectorAll(".die-selector[data-die]").forEach((sel) => {
+        const countEl = sel.querySelector(".die-count");
+        const minusBtn = sel.querySelector(".minus");
+        const plusBtn = sel.querySelector(".plus");
+
+        plusBtn.addEventListener("click", () => {
+          let val = parseInt(countEl.textContent, 10);
+          if (val < 10) val++;
+          countEl.textContent = val;
+          saveState();
+        });
+        minusBtn.addEventListener("click", () => {
+          let val = parseInt(countEl.textContent, 10);
+          if (val > 0) val--;
+          countEl.textContent = val;
+          saveState();
+        });
+      });
+
+      // ── Action buttons ────────────────────────────────────────────────────────
+      rollBtn.addEventListener("click", () => {
+        const counts = getCounts();
+        const notation = buildNotation(counts);
+        if (notation.length === 0) return;
+        doRoll(notation, "normal");
+      });
+
+      advantageBtn.addEventListener("click", () => {
+        doRoll([{ qty: 2, sides: 20 }], "advantage");
+      });
+
+      disadvantageBtn.addEventListener("click", () => {
+        doRoll([{ qty: 2, sides: 20 }], "disadvantage");
+      });
+
+      d100Btn.addEventListener("click", () => {
+        doRoll([{ qty: 1, sides: 100 }], "percentile");
+      });
+
+      clearBtn.addEventListener("click", () => {
+        if (!ready) return;
+        diceBox.clear();
+        resultPanel.classList.remove("show");
+        natToast.classList.remove("show");
+        emptyMessage.style.display = "block";
+        document.querySelectorAll(".die-count").forEach((el) => {
+          el.textContent = "0";
+        });
+        modValueEl.textContent = "0";
+        saveState();
+      });
+
+      // ── Roll History ──────────────────────────────────────────────────────────
+      let rollHistory = Array.isArray(savedState.rollHistory)
+        ? savedState.rollHistory
+        : [];
+
+      function addToHistory(totalText, detailText) {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        rollHistory.unshift({
+          time: `${hh}:${mm}`,
+          total: totalText,
+          detail: detailText,
+        });
+        if (rollHistory.length > 10) rollHistory.length = 10;
+        saveState();
+      }
+
+      function renderHistory() {
+        const list = document.getElementById("hist-list");
+        list.innerHTML = "";
+        if (rollHistory.length === 0) {
+          list.innerHTML = '<div id="hist-empty-msg">No rolls yet.</div>';
+          return;
+        }
+        rollHistory.forEach((entry) => {
+          const item = document.createElement("div");
+          item.className = "hist-item";
+          item.innerHTML = `
+          <div class="hist-item-top">
+            <span class="hist-total">${entry.total}</span>
+            <span class="hist-time">${entry.time}</span>
+          </div>
+          <div class="hist-detail">${entry.detail}</div>
+        `;
+          list.appendChild(item);
+        });
+      }
+
+      document.getElementById("history-btn").addEventListener("click", () => {
+        renderHistory();
+        openModal("history-modal");
+      });
+
+      document
+        .getElementById("hist-clear-btn")
+        .addEventListener("click", () => {
+          rollHistory = [];
+          saveState();
+          renderHistory();
+        });
+
+      // ── Custom Rolls ──────────────────────────────────────────────────────────
+      let customRolls = Array.isArray(savedState.customRolls)
+        ? savedState.customRolls
+        : [];
+
+      function crGetCounts() {
+        const counts = {};
+        document
+          .querySelectorAll("#cr-dice-grid .cr-die-sel[data-die]")
+          .forEach((sel) => {
+            const die = sel.getAttribute("data-die");
+            const count = parseInt(
+              sel.querySelector(".cr-die-count").textContent,
+              10,
+            );
+            if (count > 0) counts[die] = count;
+          });
+        return counts;
+      }
+
+      function crDescribe(counts, modifier) {
+        const parts = Object.keys(counts)
+          .sort((a, b) => +a - +b)
+          .map((d) => `${counts[d]}d${d}`);
+        if (modifier > 0) parts.push(`+${modifier}`);
+        if (modifier < 0) parts.push(`${modifier}`);
+        return parts.join(" ") || "–";
+      }
+
+      function renderCustomRolls() {
+        const list = document.getElementById("cr-list");
+        list.innerHTML = "";
+        if (customRolls.length === 0) {
+          list.innerHTML = '<div id="cr-empty-msg">No custom rolls yet.</div>';
+          return;
+        }
+        customRolls.forEach((roll, idx) => {
+          const item = document.createElement("div");
+          item.className = "cr-roll-item";
+          item.dataset.idx = idx;
+          const desc = crDescribe(roll.counts, roll.modifier);
+          item.innerHTML = `
+          <div class="cr-info">
+            <div class="cr-roll-name">${roll.name}</div>
+            <div class="cr-roll-sub">${desc}</div>
+          </div>
+          <button class="cr-delete-btn" data-idx="${idx}">✕</button>
+        `;
+          list.appendChild(item);
+        });
+
+        list.querySelectorAll(".cr-roll-item").forEach((item) => {
+          item.addEventListener("click", () => {
+            const roll = customRolls[+item.dataset.idx];
+            if (!roll || !ready) return;
+            const notation = buildNotation(roll.counts);
+            if (notation.length === 0) return;
+            closeModal("customrolls-modal");
+            pendingMode = "normal";
+            pendingModifier = roll.modifier;
+            emptyMessage.style.display = "none";
+            resultPanel.classList.remove("show");
+            natToast.classList.remove("show");
+            diceBox.clear();
+            diceBox.roll(notation);
+          });
+        });
+
+        list.querySelectorAll(".cr-delete-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            customRolls.splice(+btn.dataset.idx, 1);
+            renderCustomRolls();
+            saveState();
+          });
+        });
+      }
+
+      // cr dice counter buttons
+      document.querySelectorAll("#cr-dice-grid .cr-die-sel").forEach((sel) => {
+        const countEl = sel.querySelector(".cr-die-count");
+        sel.querySelector(".cr-minus").addEventListener("click", () => {
+          const v = parseInt(countEl.textContent, 10);
+          if (v > 0) countEl.textContent = v - 1;
+        });
+        sel.querySelector(".cr-plus").addEventListener("click", () => {
+          const v = parseInt(countEl.textContent, 10);
+          if (v < 10) countEl.textContent = v + 1;
+        });
+      });
+
+      // cr modifier buttons
+      document.getElementById("cr-mod-minus").addEventListener("click", () => {
+        const el = document.getElementById("cr-mod-value");
+        el.textContent = parseInt(el.textContent, 10) - 1;
+      });
+      document.getElementById("cr-mod-plus").addEventListener("click", () => {
+        const el = document.getElementById("cr-mod-value");
+        el.textContent = parseInt(el.textContent, 10) + 1;
+      });
+
+      // cr add button
+      document.getElementById("cr-add-btn").addEventListener("click", () => {
+        const nameInput = document.getElementById("cr-name-input");
+        const name = nameInput.value.trim();
+        const counts = crGetCounts();
+        const modifier = parseInt(
+          document.getElementById("cr-mod-value").textContent,
+          10,
+        );
+        if (!name) {
+          nameInput.focus();
+          return;
+        }
+        if (Object.keys(counts).length === 0) return;
+        customRolls.push({ name, counts, modifier });
+        // reset form
+        nameInput.value = "";
+        document
+          .querySelectorAll("#cr-dice-grid .cr-die-count")
+          .forEach((el) => {
+            el.textContent = "0";
+          });
+        document.getElementById("cr-mod-value").textContent = "0";
+        renderCustomRolls();
+        saveState();
+      });
+
+      // ── Import / Export Character Data ──────────────────────────────────────
+      function exportCharacterData() {
+        const data = {
+          type: "dnd-dice-roller-character",
+          version: 1,
+          charName,
+          charLevel,
+          hp,
+          hpMax,
+          ac,
+          initiative,
+          speedValues,
+          activeSpeedLabel,
+          passivePerception,
+          profBonus,
+          hitDiceType,
+          hitDiceCurrent,
+          abilityScores,
+          saveProficient,
+          skillProficiency,
+          customRolls,
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const safeName =
+          (charName || "character")
+            .trim()
+            .replace(/[^a-z0-9]+/gi, "-")
+            .toLowerCase() || "character";
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `dnd-${safeName}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function applyImportedCharacterData(data) {
+        if (!data || typeof data !== "object") {
+          alert("Invalid file: no valid data found.");
+          return;
+        }
+
+        if (typeof data.charName === "string") charName = data.charName;
+        if (Number.isFinite(data.charLevel) && data.charLevel >= 1)
+          charLevel = data.charLevel;
+        if (Number.isFinite(data.hp)) hp = data.hp;
+        if (Number.isFinite(data.hpMax)) hpMax = data.hpMax;
+        if (Number.isFinite(data.ac)) ac = data.ac;
+        if (Number.isFinite(data.initiative)) initiative = data.initiative;
+        if (data.speedValues && typeof data.speedValues === "object") {
+          SPEED_LABELS.forEach((label) => {
+            if (Number.isFinite(data.speedValues[label]))
+              speedValues[label] = data.speedValues[label];
+          });
+        }
+        if (SPEED_LABELS.includes(data.activeSpeedLabel))
+          activeSpeedLabel = data.activeSpeedLabel;
+        if (Number.isFinite(data.passivePerception))
+          passivePerception = data.passivePerception;
+        if (PROF_BONUS_VALUES.includes(data.profBonus))
+          profBonus = data.profBonus;
+        if (HITDICE_TYPES.includes(data.hitDiceType))
+          hitDiceType = data.hitDiceType;
+        if (Number.isFinite(data.hitDiceCurrent))
+          hitDiceCurrent = data.hitDiceCurrent;
+
+        if (data.abilityScores && typeof data.abilityScores === "object") {
+          ABILITIES.forEach((a) => {
+            if (Number.isFinite(data.abilityScores[a]))
+              abilityScores[a] = data.abilityScores[a];
+          });
+        }
+        if (data.saveProficient && typeof data.saveProficient === "object") {
+          ABILITIES.forEach((a) => {
+            saveProficient[a] = !!data.saveProficient[a];
+          });
+        }
+        if (
+          data.skillProficiency &&
+          typeof data.skillProficiency === "object"
+        ) {
+          SKILLS.forEach((s) => {
+            const val = data.skillProficiency[s.id];
+            skillProficiency[s.id] = val === "P" || val === "E" ? val : null;
+          });
+        }
+        if (Array.isArray(data.customRolls)) {
+          customRolls = data.customRolls.filter(
+            (r) =>
+              r &&
+              typeof r.name === "string" &&
+              r.counts &&
+              typeof r.modifier === "number",
+          );
+        }
+
+        clampHitDice();
+
+        // Re-render everything affected
+        ABILITIES.forEach(renderAbility);
+        SKILLS.forEach((s) => updateSkillToggleUI(s.id));
+        renderCharName();
+        renderCharLevel();
+        renderHP();
+        renderAC();
+        renderInitiative();
+        renderSpeed();
+        renderPassivePerception();
+        renderHitDice();
+        renderProfBonus();
+        document.querySelectorAll(".save-prof-checkbox").forEach((chk) => {
+          chk.checked = !!saveProficient[chk.dataset.ability];
+        });
+        renderCustomRolls();
+
+        saveState();
+      }
+
+      document
+        .getElementById("char-export-btn")
+        .addEventListener("click", exportCharacterData);
+
+      document
+        .getElementById("char-import-btn")
+        .addEventListener("click", () => {
+          document.getElementById("char-import-file").click();
+        });
+
+      document
+        .getElementById("char-import-file")
+        .addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            try {
+              const data = JSON.parse(reader.result);
+              applyImportedCharacterData(data);
+            } catch (err) {
+              alert("Could not import file: invalid format.");
+            }
+            e.target.value = "";
+          };
+          reader.readAsText(file);
+        });
+    </script>
+    <script>
+      const precacheToast = document.getElementById("precache-toast");
+      const precacheRingFg = document.getElementById("precache-ring-fg");
+      const precacheText = document.getElementById("precache-toast-text");
+      const precacheSub = document.getElementById("precache-toast-sub");
+      const PRECACHE_RING_CIRCUMFERENCE = 100.53;
+      let precacheHideTimeout = null;
+
+      function setPrecacheProgress(done, total) {
+        const percent =
+          total > 0 ? Math.round((done / total) * 100) : 0;
+        const offset =
+          PRECACHE_RING_CIRCUMFERENCE * (1 - percent / 100);
+        precacheRingFg.style.strokeDashoffset = offset.toFixed(2);
+        precacheSub.textContent = percent + "%";
+      }
+
+      function showPrecacheToast() {
+        if (precacheHideTimeout) {
+          clearTimeout(precacheHideTimeout);
+          precacheHideTimeout = null;
+        }
+        precacheText.textContent = "Downloading resources...";
+        precacheToast.classList.add("show");
+      }
+
+      function completePrecacheToast() {
+        precacheText.textContent = "Download complete";
+        precacheSub.textContent = "100%";
+        precacheRingFg.style.strokeDashoffset = "0";
+        precacheHideTimeout = setTimeout(() => {
+          precacheToast.classList.remove("show");
+        }, 1800);
+      }
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.addEventListener("message", (event) => {
+          const data = event.data || {};
+          if (data.type === "precache-progress") {
+            showPrecacheToast();
+            setPrecacheProgress(data.done, data.total);
+          } else if (data.type === "precache-complete") {
+            completePrecacheToast();
+          }
+        });
+
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("sw.js")
+            .catch((err) =>
+              console.warn("No se pudo registrar el service worker:", err),
+            );
+        });
+      }
+    </script>
+  </body>
 </html>

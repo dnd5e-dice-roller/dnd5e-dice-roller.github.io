@@ -1,0 +1,42 @@
+{
+  "id": "/dnd5e-dice-roller/",
+  "name": "D&D Dice Roller",
+  "short_name": "D&D Dice Roller",
+  "description": "A free browser-based 3D dice simulator for D&amp;D and tabletop RPGs. Roll d4, d6, d8, d10, d12, d20 and d100 with realistic physics.",
+  "start_url": "/dnd5e-dice-roller/",
+  "scope": "/dnd5e-dice-roller/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#f5efe6",
+  "theme_color": "#5c3d1e",
+  "lang": "en",
+  "categories": ["games", "entertainment", "utilities"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>D&amp;D Dice Roller – Information</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia;
+  }
+
+  body {
+    background-color: #faf6ef;
+    color: #2b2b2b;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 18px 16px 36px;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #5c3d1e;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: #7a6e62;
+    font-style: italic;
+    margin-bottom: 22px;
+  }
+
+  h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #5c3d1e;
+    margin: 22px 0 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e6ddcf;
+  }
+
+  p {
+    margin-bottom: 8px;
+    color: #3a3a3a;
+  }
+
+  ul {
+    padding-left: 18px;
+    margin-bottom: 8px;
+  }
+
+  li {
+    margin-bottom: 5px;
+    color: #3a3a3a;
+  }
+
+  .badge {
+    display: inline-block;
+    background-color: #2b2b2b;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 6px;
+    vertical-align: middle;
+    font-family: Georgia;
+  }
+
+  .badge-green  { background-color: #007f27; }
+  .badge-red    { background-color: #b10000; }
+  .badge-brown  { background-color: #5c3d1e; }
+
+  .info-note {
+    background-color: #fff8ee;
+    border-left: 3px solid #ca6500;
+    padding: 9px 12px;
+    border-radius: 0 8px 8px 0;
+    margin: 10px 0;
+    font-size: 13px;
+    color: #5c3d1e;
+  }
+
+  .param-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+  }
+
+  .param-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #efe7d8;
+    font-size: 13px;
+    vertical-align: top;
+  }
+
+  .param-table td:first-child {
+    font-weight: 700;
+    color: #5c3d1e;
+    width: 25%;
+    white-space: nowrap;
+  }
+
+  .param-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .credits-box {
+    background-color: #ffffff;
+    border: 1px solid #e6ddcf;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 10px;
+  }
+
+  .credits-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #7a6e62;
+    margin-bottom: 6px;
+  }
+
+  .credits-box p {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .credits-divider {
+    border: none;
+    border-top: 1px solid #efe7d8;
+    margin: 12px 0;
+  }
+
+  a {
+    color: #5c3d1e;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .proficiency-legend {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .prof-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .prof-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #c9bda8;
+    background-color: #faf6ef;
+    color: #9b8f7e;
+  }
+
+  .prof-dot.p {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border-color: #2b2b2b;
+  }
+
+  .prof-dot.e {
+    background-color: #5c3d1e;
+    color: #ffffff;
+    border-color: #5c3d1e;
+  }
+</style>
+</head>
+<body>
+
+  <h1>🎲 D&amp;D Dice Roller</h1>
+  <p class="subtitle">A realistic 3D dice simulator for Dungeons &amp; Dragons tabletop RPGs</p>
+
+  <!-- ── Basic Rolling ─────────────────────────────────────── -->
+  <h2>Basic Dice Rolling</h2>
+  <p>Use the <strong>+</strong> and <strong>−</strong> buttons under each die face (d4, d6, d8, d10, d12, d20) to set how many of each die you want to throw. Press <span class="badge">Roll</span> to launch them. The total and individual results appear in the floating panel at the top of the board.</p>
+  <p>Press <span class="badge" style="background-color:#efe7d8;color:#3a3a3a;">Clear</span> to remove all dice from the board and reset every counter and the modifier back to zero.</p>
+
+  <!-- ── Modifier ───────────────────────────────────────────── -->
+  <h2>Modifier</h2>
+  <p>Use the <strong>Mod.</strong> control in the bottom row to add a positive or negative integer to your total. The modifier is shown in the result breakdown and applied to the final sum.</p>
+
+  <!-- ── Advantage / Disadvantage ──────────────────────────── -->
+  <h2>Advantage &amp; Disadvantage</h2>
+  <p>The <span class="badge">Advantage</span> and <span class="badge">Disadvantage</span> buttons instantly roll two d20 dice, ignoring whatever die counts you have set.</p>
+  <ul>
+    <li><strong>Advantage:</strong> the higher of the two values counts toward the total.</li>
+    <li><strong>Disadvantage:</strong> the lower of the two values counts toward the total.</li>
+  </ul>
+  <div class="info-note">The same options are also available when rolling from the <em>Skills &amp; Proficiencies</em> panel.</div>
+
+  <!-- ── d100 ───────────────────────────────────────────────── -->
+  <h2>d100 – Percentile Roll</h2>
+  <p>Tap <span class="badge badge-brown">d100</span> to make a percentile roll. Two d10 dice are thrown: the first represents the <strong>tens digit</strong> (00, 10, 20 … 90) and the second the <strong>units digit</strong> (0–9). Results range from 1 to 100. A result of double-zero (00 + 0) counts as <strong>100</strong>.</p>
+
+  <!-- ── Nat 1 / Nat 20 ─────────────────────────────────────── -->
+  <h2>Natural 1 &amp; Natural 20</h2>
+  <p>When a <strong>single d20</strong> is rolled alone, or an <strong>Advantage/Disadvantage</strong> throw is rolled (<strong>2d20</strong>), a result of <strong>1</strong> or <strong>20</strong> shows a toast on screen:</p>
+  <ul>
+    <li><span style="color:#b10000;font-weight:700">Nat. 1</span> – automatic failure.</li>
+    <li><span style="color:#007f27;font-weight:700">Nat. 20</span> – critical or automatic success.</li>
+  </ul>
+  <p>The toast dismisses automatically after a few seconds.</p>
+
+  <!-- ── Skills ─────────────────────────────────────────────── -->
+  <h2>Character Sheet 👤</h2>
+  <p>Tap <strong>👤</strong> to open the Character Sheet panel. It has four sections:</p>
+  
+  <p><strong>Name, Level & HP</strong> – Set your character name, level and HP/HP max.</p>
+
+  <p><strong>Basic Stats</strong> – change values with <strong>+/−</strong></p>
+    <ul>
+      <li><strong>AC: </strong>Set your  AC</li>
+      <li><strong>Initiative: </strong>Set your Initiative, touch value to roll a d20 and apply mod.</li>
+      <li><strong>Speed: </strong>Set your speed, touch "Speed" label to change type (Speed, Fly, Climb, Swim and Burrow).</li>
+      <li><strong>Passive Perception: </strong>Set your PP.</li>
+      <li><strong>Prof. Bonus: </strong>Set your PB, this value is added to your Saving Throws and your Skills mod.</li>
+      <li><strong>Hit Dice: </strong>Set your Hit Dice type (d6, d8, d10, d12) and the ammount of dices you have (max. ammount equal to your level). Touch the value to roll one dice and add result to your HP.</li>
+    </ul>
+
+  <p><strong>Abilities</strong> – Set your six ability scores (STR, DEX, CON, INT, WIS, CHA) with the <strong>+/−</strong> buttons. Modifiers are calculated and displayed automatically.</p>
+  
+  <p><strong>Saving Throws</strong> – Tap the modifier button next to each ability to roll a saving throw directly. Enable the checkbox below it to add your Proficiency Bonus.</p>
+
+  <p><strong>Skills</strong> – Tap a skill name to roll a check with the correct ability modifier. Use the toggle button on the right to cycle proficiency:</p>
+
+  <div class="proficiency-legend">
+    <div class="prof-item"><span class="prof-dot">•</span> No proficiency</div>
+    <div class="prof-item"><span class="prof-dot p">P</span> Proficient</div>
+    <div class="prof-item"><span class="prof-dot e">E</span> Expertise</div>
+  </div>
+
+  <div class="info-note">All <strong>skills</strong>, <strong>saving throws</strong> and <strong>initiative</strong> rolls open a picker so you can choose <strong>Normal</strong>, <strong>Advantage</strong> or <strong>Disadvantage</strong> before the dice are thrown.</div>
+
+  <!-- ── Roll History ───────────────────────────────────────── -->
+  <h2>Roll History 📋</h2>
+  <p>A simple and intuitive registry that shows your <strong>last 10 rolls.</strong> Record rolls of all types with the <strong>Total</strong> and the <strong>Details</strong>, such as the number of dice and the type of roll you made.</p>
+
+  <!-- ── Custom Rolls ───────────────────────────────────────── -->
+  <h2>Custom Rolls 🎲</h2>
+  <p>Tap <strong>🎲</strong> to manage saved roll presets. Give it a name, choose any combination of dice and an optional modifier, then tap <strong>+ Add Roll</strong> to save it. Saved presets appear in a list — tap 🎲 to launch one instantly, or <strong>✕</strong> to delete it.</p>
+
+  <!-- ── Color ─────────────────────────────────────────────── -->
+  <h2>Dice Color 🎨</h2>
+  <p>Tap <strong>🎨</strong> to change the look of your dice. Pick a custom color with the colour picker, or choose one of the <strong>Gem Themes</strong> — special textures that replace the solid colour:</p>
+  <ul>
+    <li>Amber, Amethyst, Aquamarine, Diamond, Emerald, Onyx, Ruby, Sapphire.</li>
+  </ul>
+
+  <!-- ── Physics ───────────────────────────────────────────── -->
+  <h2>Physics Settings ⚙️</h2>
+  <p>Tap <strong>⚙️</strong> to adjust the physics simulation. Each card cycles through its options on tap:</p>
+  <table class="param-table">
+    <tr><td>📏 Size</td><td><strong>Small | Medium | Large</strong> — changes the physical scale of every die.</td></tr>
+    <tr><td>🌑 Gravity</td><td><strong>Zero | Soft | Normal</strong> — how fast the dice fall to the surface.</td></tr>
+    <tr><td>🥌 Friction</td><td><strong>Off | On</strong> — controls how much the surface grips the dice.</td></tr>
+    <tr><td>🏀 Bounce</td><td><strong>Off | Normal | High</strong> — controls how energetically the dice rebound.</td></tr>
+    <tr><td>💡 Light</td><td><strong>Dim | Bright | Intense</strong> — ambient light intensity in the scene.</td></tr>
+    <tr><td>🔲 Shadow</td><td><strong>Off | On</strong> — toggles cast shadows on the surface.</td></tr>
+  </table>
+  <div class="info-note">Physics changes take effect when you close the panel. The dice engine restarts automatically.</div>
+
+  <!-- ── Persistence ────────────────────────────────────────── -->
+  <h2>Saved State</h2>
+  <p>All your preferences are saved automatically in your browser's local storage: die counts, modifier, ability scores, proficiencies, custom roll presets, dice colour, and physics settings. Everything is restored the next time you open the app.</p>
+
+  <!-- ── Saving Data ────────────────────────────────────────── -->
+  <h2>Saving Character and Custom Rolls</h2>
+  <p>You can save your Character Sheet and Custom Rolls data. To do so, open 👤 <strong>Character Sheet</strong> and use 💾 / 📁 buttons to export/import data. A JSON file will be automatically saved to your Downloads folder, which you can later load to recover all data in case you lose or accidentally modify it.</p>
+  
+  <!-- ── Credits ────────────────────────────────────────────── -->
+  <h2>Credits</h2>
+  <div class="credits-box">
+
+    <div class="credits-section-title">RENDERING ENGINE</div>
+    <p>The 3D dice rendering and physics simulation are powered by <strong>@3d-dice/dice-box</strong>, an open-source WebGL dice library built on top of Babylon.js and Cannon-es.</p>
+    <p>
+      Created by <strong>Frank Meeuwissen:</strong><br> •
+      <a href="https://github.com/3d-dice/dice-box" target="_blank">github.com/3d-dice/dice-box</a><br> •
+      <a href="https://fantasticdice.games/" target="_blank">fantasticdice.games</a>
+    </p>
+    <p style="margin-top:4px; font-size: 12px; color: #7a6e62;">
+      Package: <code>@3d-dice/dice-box v1.1.4</code> · License: MIT
+    </p>
+
+    <hr class="credits-divider">
+
+    <div class="credits-section-title">APPLICATION v2.1.5</div>
+    <p><strong>D&amp;D Dice Roller</strong> is a free, open-source D&amp;D companion webapp.</p>
+    <p>Made with ❤️ by <a href="https://github.com/williamwolf92/" target="_blank"><strong>williamwolf92</strong></a></p>
+    <a href="mailto:lamorrongadepapo@gmail.com?subject=DnD Dice Roller feedback">📧 Send Feedback</a>
+  </div>
+</body>
+</html>
