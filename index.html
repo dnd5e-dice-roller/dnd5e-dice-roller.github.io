@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="./manifest.json" />
     <meta
       name="google-site-verification"
       content="bVRSgXIsfiMJQzOA5IqzHq4rglR4AAdRm0D9aGcmkr4"
@@ -4341,7 +4341,7 @@
 
         window.addEventListener("load", () => {
           navigator.serviceWorker
-            .register("sw.js")
+            .register("./sw.js")
             .catch((err) =>
               console.warn("No se pudo registrar el service worker:", err),
             );
