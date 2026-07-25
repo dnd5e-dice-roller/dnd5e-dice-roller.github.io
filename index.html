@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Track initiative, HP, conditions and dice rolls for D&D 5e. Free browser tool, no login required.">
+<meta name="keywords" content="dnd combat tracker, dnd 5e tracker, initiative tracker, dungeons and dragons tool">
+<meta name="robots" content="index, follow">
+<meta name="twitter:title" content="D&D 5e Combat Tracker — Free & No Login">
+<meta name="twitter:description" content="Track initiative, HP, conditions and dice rolls for D&D 5e. Free browser tool, no login required.">
+<meta name="twitter:image" content="https://github.com/williamwolf92/dnd-combat-tracker/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="mobile-web-app-capable" content="yes">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="D&D 5e Combat Tracker">
+<meta property="og:title" content="D&D 5e Combat Tracker - Free & No Login">
+<meta property="og:description" content="Track initiative, HP, conditions and dice rolls for D&D 5e. Free browser tool, no login required.">
+<meta property="og:image" content="https://github.com/williamwolf92/dnd-combat-tracker/preview.jpg">
+<meta property="og:url" content="https://williamwolf92.github.io/dnd-combat-tracker/">
+<title>D&D 5e Combat Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ────── SHARED COMBAT / HISTORY HEADER ────── -->
+<header class="shared-header" id="sharedHeader" style="display:none;">
+
+  <div id="sharedHeaderCombat" style="display:none;">
+    <div class="combat-left-group">
+      <button class="btn btn-add" onclick="openAddModal()">✦ Nuevo</button>
+      <button class="btn btn-tool" onclick="exportCombatState()" title="Export state">💾</button>
+      <button class="btn btn-tool" onclick="importCombatState()" title="Import state">📂</button>
+    </div>
+    <div class="combat-round">Ronda <span id="combatRoundNum">1</span></div>
+    <button class="btn btn-next" id="nextBtnCombat" onclick="nextTurn()">▶ Iniciar</button>
+  </div>
+
+  <div id="sharedHeaderHistory" style="display:none;">
+    <select id="historyFilter" class="history-filter-select" onchange="applyHistoryFilter()">
+      <option value="all">Todos</option>
+    </select>
+    <button class="btn btn-cancel" id="btnClearHistory" onclick="clearHistory()" title="Clear history">🗑 Limpiar</button>
+  </div>
+
+</header>
+
+<!-- ────── HOME SCREEN ────── -->
+<div class="screen" id="screenHome">
+  <header class="home-header">
+    <h1>Dungeons &amp; Dragons</h1>
+    <div class="tagline">COMBAT TRACKER <span class="version">v3.2</span></div>
+    <div class="sword-icon">⚔️ 🏹 🔮 🛡</div>
+    <div class="ornament"></div>
+  </header>
+
+  <main class="home-main">
+    <div id="homeCustom">
+      <p class="home-intro">Te doy la bienvenida a <b>DnD Combat Tracker</b>.<br>Aquí tienes una guía rápida:</p><br>
+
+      <div class="home-section">
+        <div class="home-section-title"><b>⚔️ AÑADIR UN COMBATIENTE</b></div>
+        <p>• Ve a la pestaña ⚔️ <b>Combate</b> y pulsa <b>✦ Añadir</b> para agregar jugadores y monstruos. Introduce el nombre y selecciona una sugerencia si desea añadir un monstruo; en este caso, la <b>Iniciativa</b>, los <b>HP</b> y la <b>AC</b> se rellenan automáticamente.</p>
+        <p>• La <b>Iniciativa</b> acepta un número fijo (ej. <i>14</i>) o un modificador de bono (ej. <i>-2</i>/<i>+3</i>). Un modificador aplicará la <b>Regla de Iniciativa</b> seleccionada y la añadirá automáticamente junto con la <b>Ventaja</b> o <b>Desventaja</b> si corresponde.</p>
+        <p>• Los <b>HP</b> aceptan un número fijo, una tirada (<b><i>#d#</i></b>) o una tirada con bono (<i><b>#d#±#</b></i>).</p>
+        <p>• La <b>AC</b> solo acepta números fijos.</p>
+      </div>
+      
+      <div class="home-section">
+        <div class="home-section-title"><b>📋 FICHA DE MONSTRUOS</b></div>
+        <p>• Toca el nombre de un <b>monstruo</b> en la lista de combatientes para abrir su <b>Ficha de Estadísticas</b> (esta función ya está disponible pero por el momento las Fichas no lo están).</p>
+      </div>
+
+      <div class="home-section">
+        <div class="home-section-title"><b>❤️ MODIFICANDO LOS HP</b></div>
+        <p>• Toca el valor de ❤️ <b>HP</b> en una tarjeta de combatiente. Usa el teclado numérico para introducir un número fijo, una tirada (<i><b>#d#</b></i>) o una tirada con bono (<i><b>#d#±#</b></i>), y luego toca <b>Dañar</b> o <b>Curar</b>.</p>
+        <p>• Usa las opciones <b>Resistente</b> o <b>Vulnerable</b> para reducir a la mitad o duplicar el daño, respectivamente. Además, puedes usar <b>Resistente</b> para reducir a la mitad el daño si se supera una tirada de salvación.</p>
+        <p>• Como elemento visual, el valor de HP parpadea en rojo si cae por debajo de <b>20%</b>.</p>
+      </div>
+
+      <div class="home-section">
+        <div class="home-section-title"><b>🛡 TIRADAS DE ATAQUE</b></div>
+        <p>• Toca el valor de la 🛡 <b>AC</b> en una tarjeta para abrir el panel de Tirada de Ataque. Configura la bonificación y el tipo de ataque. El resultado mostrará <b>IMPACTO</b>, <b>FALLO</b> o <b>CRÍTICO</b>.</p>
+        <p>• Toca los botones <b>+/-</b> junto a la <b>AC</b> para modificar su valor.</p>
+      </div>
+
+      <div class="home-section">
+        <div class="home-section-title"><b>⚡ CONDICIONES</b></div>
+        <p>• Toca el botón <b>Cond.</b> (junto a la AC) para añadir Condiciones. Toca una Etiqueta de Condición para eliminarla.</p>
+      </div>
+      
+      <div class="home-section">
+        <div class="home-section-title"><b>🧿 CONCENTRACIÓN</b></div>
+        <p>• Toca la Etiqueta <b>Concentrado</b> para activar o desactivar la Concentración en un combatiente.</p>
+        <p>• Cuando un combatiente <b>concentrado</b> recibe daño, se abre un panel automáticamente: configura la <b>DC</b>, el <b>Mod. de Habilidad</b>, elige Ventaja o Desventaja si es necesario y, a continuación, pulsa <b>Tirada</b>. Si falla, pierde la Concentración.</p>
+      </div>
+      
+      <div class="home-section">
+        <div class="home-section-title"><b>☠️ SALVACIÓN DE MUERTE</b></div>
+        <p>• Cuando los HP de un combatiente llegan a <b>0</b>, éste cae <b>inconsciente</b> y debe realizar <b>Tiradas de Salvación de Muerte</b> en cada turno.</p>
+        <p>• Pulsa el ícono de 🖤️ <b>HP</b> en un combatiente activo (en turno) con 0 HP para abrir el panel de <b>Salvación de Muerte</b>. Elige Ventaja o Desventaja si corresponde y luego pulsa <b>Tirada</b>.</p>
+        <p>• Una tirada de <b>10 o más</b> cuenta como <b>Éxito</b>; una tirada de <b>9 o menos</b> cuenta como <b>Fallo</b>. Un <b>1 natural</b> añade 2 fallos. Un <b>20 natural</b> estabiliza inmediatamente al combatiente con 1 HP.</p>
+        <p>• Con <b>3 Éxitos</b>, el combatiente se estabiliza y <b>revive</b> con 1 HP. Con <b>3 Fallos</b>, el combatiente <b>muere</b> permanentemente.</p>
+        <p>• También puedes hacer un seguimiento manual de las salvaciones pulsando los íconos ❤️/🖤 en la tarjeta del combatiente, al hacerlo, aumenta en 1.</p>
+      </div>
+      
+      <div class="home-section">
+        <div class="home-section-title"><b>💾 IMPORTAR / EXPORTAR</b></div>
+        <p>• En la pantalla de Combate, usa los botones 💾 / 📁 para <b>exportar/importar</b> el estado actual del combate, con historial incluido.</p>
+        <p>• ⚠️<b>¡ATENCIÓN!</b> Importar datos de combate reemplazará <b>TODO</b> en la sesión actual, incluyendo el historial.</p>
+      </div>
+      
+      <div class="home-section">
+        <div class="home-section-title"><b>📧 CONTACTO</b></div>
+        <p>• ¿Tienes alguna duda o sugerencia?<br>Puedes enviarme un correo <a href="mailto:lamorrongadepapo@gmail.com?subject=DnD 5e Combat Tracker">aquí</a>.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ────── COMBAT SCREEN ────── -->
+<div class="screen" id="screenCombat" style="display:none;">
+  <main class="combat-main">
+    <div class="combatant-list" id="listCombat"></div>
+  </main>
+</div>
+
+<!-- ────── HISTORY SCREEN ────── -->
+<div class="screen" id="screenHistory" style="display:none;">
+  <main class="history-main">
+    <div class="history-log" id="historyLog">
+      <div class="empty-state">
+        <span class="empty-dragon">📜</span>
+        <h3>Historial vacío</h3>
+        <p>Los eventos se registrarán aquí</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ──────────────────── FOOTER NAVIGATION ──────────────────── -->
+<footer class="app-footer">
+  <button class="footer-btn" onclick="switchScreen('screenHome')" id="btnHome">🏠 Inicio</button>
+  <button class="footer-btn" onclick="switchScreen('screenCombat')" id="btnCombat">⚔️ Combate</button>
+  <button class="footer-btn" onclick="switchScreen('screenHistory')" id="btnHistory">📋 Historial</button>
+  <button class="footer-btn" onclick="openRollModal()" id="btnRoll">🎲 Tirada</button>
+</footer>
+
+<!-- ──────────────────── ADD COMBATANT MODAL ──────────────────── -->
+<div class="overlay" id="addModal" onclick="ovrClick(event,'addModal')">
+  <div class="modal">
+    <div class="modal-title">✦ Agregar combatiente</div>
+
+    <div class="name-qty-row">
+      <div class="field" style="position:relative;flex:1;">
+        <label>Nombre</label>
+        <input id="a-name" type="text" oninput="onNameInput()" autocomplete="off">
+        <div id="monster-suggestions" class="monster-suggestions"></div>
+      </div>
+      <div class="field field-qty">
+  <label>Cant.</label>
+  <div class="init-wrap">
+    <input id="a-qty" type="number" value="1" min="1" max="20">
+  </div>
+</div>
+    </div>
+
+    <!-- Initiative Rule row -->
+    <div class="init-rule-row">
+      <div class="init-rule-group">
+        <div class="init-rule-label">Regla de Iniciativa</div>
+        <div class="init-rule-btns">
+          <button class="init-rule-btn active" id="initRuleRoll" onclick="setInitRule('roll')">Tirada + Inic.</button>
+          <button class="init-rule-btn" id="initRule10" onclick="setInitRule('ten')">10 + Inic.</button>
+        </div>
+      </div>
+      <div class="init-adv-group">
+        <div class="init-rule-label">Vent./Desv.</div>
+        <div class="init-rule-btns">
+          <button class="init-adv-btn" id="initAdvPlus" onclick="setInitAdv('plus')">+5</button>
+          <button class="init-adv-btn" id="initAdvMinus" onclick="setInitAdv('minus')">−5</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- DEX mod -->
+      <div class="field field-init">
+        <label>Inic.</label>
+        <div class="init-wrap">
+          <input id="a-init" type="text" oninput="filterInitInput(this)">
+        </div>
+      </div>
+
+      <!-- HP -->
+      <div class="field field-hp">
+        <label>HP</label>
+        <input id="a-hp" type="text" oninput="filterHpInput(this)">
+      </div>
+
+      <!-- AC -->
+      <div class="field field-ac">
+        <label>AC</label>
+        <input id="a-ac" type="text" min="1">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-player" onclick="addCombatant('player')">🧙 Jugador</button>
+      <button class="btn btn-monster" onclick="addCombatant('monster')">👹 Monstruo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── HP NUMPAD MODAL ────── -->
+<div class="overlay" id="hpModal" onclick="ovrHpClick(event)">
+  <div class="modal modal-hp">
+    <div class="modal-title">❤️ Modificar HP</div>
+    <div class="hp-display" id="hpDisp">_</div>
+    <div class="hp-results-list" id="hpResultsList"></div>
+    <div class="numpad">
+      <button class="np" onclick="npPress('1')">1</button>
+      <button class="np" onclick="npPress('2')">2</button>
+      <button class="np" onclick="npPress('3')">3</button>
+      <button class="np" onclick="npPress('4')">4</button>
+      <button class="np" onclick="npPress('5')">5</button>
+      <button class="np" onclick="npPress('6')">6</button>
+      <button class="np" onclick="npPress('7')">7</button>
+      <button class="np" onclick="npPress('8')">8</button>
+      <button class="np" onclick="npPress('9')">9</button>
+      <button class="np np-dice" onclick="npPress('d')">d</button>
+      <button class="np" onclick="npPress('0')">0</button>
+      <button class="np np-toggle" onclick="npPress('±')">±</button>
+      <div class="hp-mod-row">
+        <button class="hp-mod-btn hp-mod-resist" id="btnResist" onclick="hpModToggle('resist')">Resistente</button>
+        <button class="hp-mod-btn hp-mod-vuln"   id="btnVuln"   onclick="hpModToggle('vuln')">Vulnerable</button>
+      </div>
+      <button class="np np-minus" onclick="applyHP(-1)">Dañar</button>
+      <button class="np np-plus" onclick="applyHP(1)">Curar</button>
+      <button class="np np-clr" onclick="npBack()">Borrar</button>
+      <button class="np np-close" onclick="closeHpModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── STATUS CONDITIONS MODAL ────── -->
+<div class="overlay" id="statusModal" onclick="ovrClick(event,'statusModal')">
+  <div class="modal modal-status">
+    <div class="modal-title">⚡ Condiciones</div>
+    <div class="status-grid" id="statusGrid"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ok" onclick="applyStatuses()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── ATTACK MODAL ────── -->
+<div class="overlay" id="attackModal" onclick="ovrClick(event,'attackModal')">
+  <div class="modal modal-attack">
+    <div class="modal-title">⚔️ Tirada de Ataque</div>
+    
+    <div class="field">
+      <div class="attack-bonus-row">
+        <div class="bonus-stepper-wrapper">
+          <label class="field-label">Bono de Ataque</label>
+          <div class="bonus-stepper">
+            <button class="btn-stepper" onclick="attackBonusChange(-1)">−</button>
+            <input type="number" id="attackBonus" value="0">
+            <button class="btn-stepper" onclick="attackBonusChange(1)">+</button>
+          </div>
+        </div>
+        <div class="attack-type-wrapper">
+          <label class="field-label">Tipo de Tirada</label>
+          <div class="attack-type-group">
+            <button class="attack-type-btn" data-type="advantage"    onclick="setAttackType('advantage')">Vent.</button>
+            <button class="attack-type-btn" data-type="disadvantage" onclick="setAttackType('disadvantage')">Desv.</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="attack-result" id="attackResult">
+      <div class="result-message" id="resultMessage"><span class="attack-ready-msg">Listo para Atacar</span></div>
+      <div class="result-formula" id="resultFormula"></div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:20px;">
+      <button class="btn btn-ok" onclick="executeAttack()">⚔️ Atacar</button>
+      <button class="btn btn-cancel" onclick="closeModal('attackModal')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── ROLL MODAL ────── -->
+<div class="overlay" id="rollModal" onclick="ovrRollClick(event)">
+  <div class="modal modal-roll">
+    <div class="modal-title">🎲 Lanzar Dados</div>
+    <div class="roll-display" id="rollDisplay">_</div>
+    <div class="roll-results-list" id="rollResultsList"></div>
+    <div class="numpad">
+      <button class="np" onclick="rollPress('1')">1</button>
+      <button class="np" onclick="rollPress('2')">2</button>
+      <button class="np" onclick="rollPress('3')">3</button>
+      <button class="np" onclick="rollPress('4')">4</button>
+      <button class="np" onclick="rollPress('5')">5</button>
+      <button class="np" onclick="rollPress('6')">6</button>
+      <button class="np" onclick="rollPress('7')">7</button>
+      <button class="np" onclick="rollPress('8')">8</button>
+      <button class="np" onclick="rollPress('9')">9</button>
+      <button class="np np-dice" onclick="rollPress('d')">d</button>
+      <button class="np" onclick="rollPress('0')">0</button>
+      <button class="np np-toggle" onclick="rollPress('±')">±</button>
+      <div class="roll-adv-row">
+        <button class="roll-adv-btn" id="rollAdvBtn-advantage"    onclick="setRollAdvType('advantage')">Ventaja</button>
+        <button class="roll-adv-btn" id="rollAdvBtn-disadvantage" onclick="setRollAdvType('disadvantage')">Desventaja</button>
+      </div>
+      <button class="np np-roll" onclick="rollExecute()" style="grid-column: span 2;">🎲 Lanzar</button>
+      <button class="np np-clr" onclick="rollBack()">Borrar</button>
+      <button class="np np-close" onclick="closeRollModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ────── DEATH SAVE MODAL ────── -->
+<div class="overlay" id="deathSaveModal" onclick="ovrClick(event,'deathSaveModal')">
+  <div class="modal modal-deathsave">
+    <div class="modal-title">☠️ SALVACIÓN DE MUERTE</div>
+    <div class="deathsave-text">¿Desea hacer una tirada de Salvación de Muerte?</div>
+    <div class="deathsave-adv-group">
+      <button class="deathsave-adv-btn" id="dsAdvBtn-advantage"    onclick="setDeathSaveAdv('advantage')">Ventaja</button>
+      <button class="deathsave-adv-btn" id="dsAdvBtn-disadvantage" onclick="setDeathSaveAdv('disadvantage')">Desventaja</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ok" onclick="rollDeathSave()">Tirada</button>
+      <button class="btn btn-cancel" onclick="closeModal('deathSaveModal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── CON SAVE MODAL ────── -->
+<div class="overlay" id="conSaveModal">
+  <div class="modal modal-consave">
+    <div class="modal-title">🎯 Salvar Concentración</div>
+    <div class="consave-name-label" id="conSaveNameLabel"></div>
+    <div class="consave-row">
+      <div class="consave-col">
+        <label class="field-label">DC</label>
+        <div class="bonus-stepper">
+          <button class="btn-stepper" onclick="conSaveDCStep(-1)">−</button>
+          <input type="number" id="cs-dc" value="10" min="1" max="30">
+          <button class="btn-stepper" onclick="conSaveDCStep(1)">+</button>
+        </div>
+      </div>
+      <div class="consave-col">
+        <label class="field-label">Mod. de Habilidad</label>
+        <div class="bonus-stepper">
+          <button class="btn-stepper" onclick="conSaveStep(-1)">−</button>
+          <input type="number" id="cs-con" value="0" min="-10" max="10">
+          <button class="btn-stepper" onclick="conSaveStep(1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="consave-adv-group" style="margin-top:12px;">
+      <button class="consave-adv-btn" id="csAdvBtn-advantage"    onclick="setConSaveAdv('advantage')">Ventaja</button>
+      <button class="consave-adv-btn" id="csAdvBtn-disadvantage" onclick="setConSaveAdv('disadvantage')">Desventaja</button>
+    </div>
+    <div class="modal-actions" style="margin-top:20px;">
+      <button class="btn btn-ok" onclick="executeConSave()">🎲 Tirada</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── NOTES MODAL ────── -->
+<div class="overlay" id="notesModal" onclick="ovrClick(event,'notesModal')">
+  <div class="modal modal-notes">
+    <div class="modal-title">📝 Notas</div>
+    <div class="notes-name-label" id="notesNameLabel"></div>
+    <textarea id="notes-textarea" class="notes-textarea" placeholder="Escribe una nota para este combatiente..."></textarea>
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="btn btn-ok" onclick="saveNote()">Guardar</button>
+      <button class="btn btn-cancel" onclick="closeModal('notesModal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── DELETE CONFIRMATION MODAL ────── -->
+<div class="overlay" id="deleteConfirmModal" onclick="ovrClick(event,'deleteConfirmModal')">
+  <div class="modal modal-confirm">
+    <div class="confirm-text">¿Quitar combatiente(s)?</div>
+    <div class="delete-btn-grid">
+      <button class="btn del-btn del-btn-this" onclick="confirmDelete('this')">Este</button>
+      <button class="btn del-btn del-btn-all" onclick="confirmDelete('all')">Todos</button>
+      <button class="btn del-btn del-btn-players" onclick="confirmDelete('players')">Jugadores</button>
+      <button class="btn del-btn del-btn-monsters" onclick="confirmDelete('monsters')">Monstruos</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── COMBAT END MODAL ────── -->
+<div class="overlay" id="combatEndModal">
+  <div class="modal modal-confirm">
+    <span class="cup-icon">🏆</span>
+    <span class="fallen-name">¡Victoria!</span>
+    <p style="font-size:17px;margin-top:6px;">Todos los monstruos derrotados</p>
+    <div class="modal-actions" style="margin-top:24px;">
+      <button class="btn btn-ok" onclick="closeCombatEnd()">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── COMBAT DEFEAT MODAL ────── -->
+<div class="overlay" id="combatDefeatModal">
+  <div class="modal modal-confirm">
+    <span class="cup-icon">☠️</span>
+    <span class="fallen-name">Derrota</span>
+    <p style="font-size:17px;margin-top:6px;">Todos los jugadores derrotados</p>
+    <div class="modal-actions" style="margin-top:24px;">
+      <button class="btn btn-cancel" onclick="closeCombatDefeat()">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── STAT BLOCK MODAL ────── -->
+<div class="overlay" id="statblockModal" onclick="ovrClick(event,'statblockModal')">
+  <div class="modal modal-statblock">
+    <div id="statblockContent"></div>
+  </div>
+</div>
+
+<!-- ────── EXPORT MODAL ────── -->
+<div class="overlay" id="exportModal" onclick="ovrClick(event,'exportModal')">
+  <div class="modal modal-export">
+    <div class="modal-title">💾 Exportar Combate</div>
+    <div class="field">
+      <label>Nombre de archivo</label>
+      <input id="export-filename" type="text" placeholder="combate" autocomplete="off"
+             onkeydown="if(event.key==='Enter')doExport()">
+    </div>
+    <p class="export-hint">La fecha y hora actual se agregarán automáticamente al nombre del archivo. Este archivo se guarda en tu carpeta de Descargas.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ok" onclick="doExport()">💾 Exportar</button>
+      <button class="btn btn-cancel" onclick="closeModal('exportModal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────── IMPORT CONFIRMATION MODAL ────── -->
+<div class="overlay" id="importConfirmModal" onclick="ovrClick(event,'importConfirmModal')">
+  <div class="modal modal-confirm">
+    <div class="confirm-text">⚠️ Importar un archivo <b>reemplazará TODA la sesión actual</b>. Esta acción no se puede deshacer.<br><br>¿Desea continuar?</div>
+    <div class="modal-actions">
+      <button class="btn btn-ok" onclick="doImport()">Si, Importar</button>
+      <button class="btn btn-cancel" onclick="closeModal('importConfirmModal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
