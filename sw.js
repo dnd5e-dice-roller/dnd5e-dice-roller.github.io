@@ -1,6 +1,6 @@
 // sw.js — D&D Dice Roller offline support
 // Sube la versión cada vez que cambies archivos del shell para forzar refresco.
-const CACHE_VERSION  = "v2";
+const CACHE_VERSION  = "v4";
 const PRECACHE_NAME  = `ddr-precache-${CACHE_VERSION}`;
 const RUNTIME_NAME    = `ddr-runtime-${CACHE_VERSION}`;
 
@@ -64,11 +64,6 @@ const PRECACHE_URLS = [
   "./themes/onyx/roughness.png",
   "./themes/onyx/smoothDice.json",
   "./themes/onyx/theme.config.json",
-  "./themes/opal/diffuse.jpg",
-  "./themes/opal/normal.png",
-  "./themes/opal/roughness.png",
-  "./themes/opal/smoothDice.json",
-  "./themes/opal/theme.config.json",
   "./themes/ruby/diffuse.jpg",
   "./themes/ruby/normal.png",
   "./themes/ruby/roughness.png",
