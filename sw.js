@@ -1,6 +1,6 @@
 // sw.js — D&D Dice Roller offline support
 // Sube la versión cada vez que cambies archivos del shell para forzar refresco.
-const CACHE_VERSION  = "v1";
+const CACHE_VERSION  = "v2";
 const PRECACHE_NAME  = `ddr-precache-${CACHE_VERSION}`;
 const RUNTIME_NAME    = `ddr-runtime-${CACHE_VERSION}`;
 
