@@ -185,68 +185,33 @@
         pointer-events: none;
       }
 
-      /* Toast de descarga en caché (precache offline) */
+      /* Indicador de carga de archivos (precache inicial y descargas en runtime) */
       #precache-toast {
         position: absolute;
-        bottom: 50%;
-        left: 50%;
-        transform: translate(-50%, 20px);
+        bottom: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
         background-color: rgba(40, 30, 20, 0.92);
-        color: #f5efe6;
-        border-radius: 14px;
-        padding: 12px 18px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
-        z-index: 999;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        z-index: 20;
         opacity: 0;
         pointer-events: none;
-        transition:
-          opacity 0.3s ease,
-          transform 0.3s ease;
-        max-width: 90%;
-        width: max-content;
+        transition: opacity 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #8fd18f;
       }
 
       #precache-toast.show {
         opacity: 1;
-        transform: translate(-50%, 0px);
       }
 
       #precache-ring {
-        width: 36px;
-        height: 36px;
-        flex-shrink: 0;
-        transform: rotate(-90deg);
-      }
-
-      #precache-ring circle {
-        fill: none;
-        stroke-width: 4px;
-      }
-
-      .precache-ring-bg {
-        stroke: rgba(255, 255, 255, 0.22);
-      }
-
-      .precache-ring-fg {
-        stroke: #8fd18f;
-        stroke-linecap: round;
-        stroke-dasharray: 100.53;
-        stroke-dashoffset: 100.53;
-        transition: stroke-dashoffset 0.25s ease;
-      }
-
-      #precache-toast-text {
-        font-size: 14px;
-        font-weight: 700;
-      }
-
-      #precache-toast-sub {
-        font-size: 12px;
-        opacity: 0.75;
-        margin-top: 2px;
+        width: 28px;
+        height: 28px;
       }
 
       /* Toast central Nat. 1 / Nat. 20 */
@@ -1692,25 +1657,17 @@
     </script>
   </head>
   <body>
-    <div id="precache-toast">
-      <svg id="precache-ring" viewBox="0 0 40 40">
-        <circle class="precache-ring-bg" cx="20" cy="20" r="16"></circle>
-        <circle
-          class="precache-ring-fg"
-          id="precache-ring-fg"
-          cx="20"
-          cy="20"
-          r="16"
-        ></circle>
-      </svg>
-      <div id="precache-toast-copy">
-        <div id="precache-toast-text">Downloading resources...</div>
-        <div id="precache-toast-sub">0%</div>
-      </div>
-    </div>
     <div id="app">
       <div id="dice-box-wrapper">
         <div id="dice-box"></div>
+        <div id="precache-toast">
+          <svg id="precache-ring" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
+            <path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+              <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+            </path>
+          </svg>
+        </div>
         <div id="empty-message">
           WELCOME!<br /><br />Select your dice and tap "Roll".
         </div>
@@ -1888,6 +1845,14 @@
           <hr id="gem-themes-divider" />
           <div id="gem-themes-label">Dragon Themes</div>
           <div id="gem-themes-grid">
+            <button class="gem-theme-btn" data-theme="dragon_black">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #969393, #000000);"></div>
+              Black Dragon
+            </button>
+            <button class="gem-theme-btn" data-theme="dragon_brass">
+              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffba60, #c57500);"></div>
+              Brass Dragon
+            </button>
             <button class="gem-theme-btn" data-theme="dragon_blue">
               <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #c3c9ff, #0000ff);"></div>
               Blue Dragon
@@ -2813,6 +2778,8 @@
             ruby: themeBase + "ruby/",
             sapphire: themeBase + "sapphire/",
             // Dragon Themes
+            dragon_black: themeBase + "dragon_black/",
+            dragon_brass: themeBase + "dragon_brass/",
             dragon_blue: themeBase + "dragon_blue/",
             dragon_green: themeBase + "dragon_green/",
             dragon_red: themeBase + "dragon_red/",
@@ -4290,37 +4257,36 @@
     </script>
     <script>
       const precacheToast = document.getElementById("precache-toast");
-      const precacheRingFg = document.getElementById("precache-ring-fg");
-      const precacheText = document.getElementById("precache-toast-text");
-      const precacheSub = document.getElementById("precache-toast-sub");
-      const PRECACHE_RING_CIRCUMFERENCE = 100.53;
       let precacheHideTimeout = null;
-
-      function setPrecacheProgress(done, total) {
-        const percent =
-          total > 0 ? Math.round((done / total) * 100) : 0;
-        const offset =
-          PRECACHE_RING_CIRCUMFERENCE * (1 - percent / 100);
-        precacheRingFg.style.strokeDashoffset = offset.toFixed(2);
-        precacheSub.textContent = percent + "%";
-      }
 
       function showPrecacheToast() {
         if (precacheHideTimeout) {
           clearTimeout(precacheHideTimeout);
           precacheHideTimeout = null;
         }
-        precacheText.textContent = "Downloading resources...";
         precacheToast.classList.add("show");
       }
 
       function completePrecacheToast() {
-        precacheText.textContent = "Download complete";
-        precacheSub.textContent = "100%";
-        precacheRingFg.style.strokeDashoffset = "0";
         precacheHideTimeout = setTimeout(() => {
           precacheToast.classList.remove("show");
-        }, 1800);
+        }, 600);
+      }
+
+      let activeRuntimeFetches = 0;
+
+      function showRuntimeLoading() {
+        if (precacheHideTimeout) {
+          clearTimeout(precacheHideTimeout);
+          precacheHideTimeout = null;
+        }
+        precacheToast.classList.add("show");
+      }
+
+      function hideRuntimeLoading() {
+        precacheHideTimeout = setTimeout(() => {
+          precacheToast.classList.remove("show");
+        }, 250);
       }
 
       if ("serviceWorker" in navigator) {
@@ -4328,9 +4294,16 @@
           const data = event.data || {};
           if (data.type === "precache-progress") {
             showPrecacheToast();
-            setPrecacheProgress(data.done, data.total);
           } else if (data.type === "precache-complete") {
             completePrecacheToast();
+          } else if (data.type === "runtime-fetch-start") {
+            activeRuntimeFetches = data.active;
+            showRuntimeLoading();
+          } else if (data.type === "runtime-fetch-end") {
+            activeRuntimeFetches = data.active;
+            if (activeRuntimeFetches <= 0) {
+              hideRuntimeLoading();
+            }
           }
         });
 

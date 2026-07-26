@@ -1,6 +1,6 @@
 // sw.js — D&D Dice Roller offline support
 // Sube la versión cada vez que cambies archivos del shell para forzar refresco.
-const CACHE_VERSION  = "v4";
+const CACHE_VERSION  = "v5";
 const PRECACHE_NAME  = `ddr-precache-${CACHE_VERSION}`;
 const RUNTIME_NAME    = `ddr-runtime-${CACHE_VERSION}`;
 
@@ -26,95 +26,9 @@ const PRECACHE_URLS = [
   "./engine/world.offscreen.min.js",
   "./engine/world.onscreen.min.js",
   "./engine/Dice.min.js",
-  // THEMES
-  // DEFAULT COLOR
-  "./themes/smooth/diffuse-dark.png",
-  "./themes/smooth/diffuse-light.png",
-  "./themes/smooth/normal.png",
-  "./themes/smooth/smoothDice.json",
-  "./themes/smooth/theme.config.json",
-  // GEM THEMES
-  "./themes/amber/diffuse.jpg",
-  "./themes/amber/normal.png",
-  "./themes/amber/roughness.png",
-  "./themes/amber/smoothDice.json",
-  "./themes/amber/theme.config.json",
-  "./themes/amethyst/diffuse.jpg",
-  "./themes/amethyst/normal.png",
-  "./themes/amethyst/roughness.png",
-  "./themes/amethyst/smoothDice.json",
-  "./themes/amethyst/theme.config.json",
-  "./themes/aquamarine/diffuse.jpg",
-  "./themes/aquamarine/normal.png",
-  "./themes/aquamarine/roughness.png",
-  "./themes/aquamarine/smoothDice.json",
-  "./themes/aquamarine/theme.config.json",
-  "./themes/diamond/diffuse.jpg",
-  "./themes/diamond/normal.png",
-  "./themes/diamond/roughness.png",
-  "./themes/diamond/smoothDice.json",
-  "./themes/diamond/theme.config.json",
-  "./themes/emerald/diffuse.jpg",
-  "./themes/emerald/normal.png",
-  "./themes/emerald/roughness.png",
-  "./themes/emerald/smoothDice.json",
-  "./themes/emerald/theme.config.json",
-  "./themes/onyx/diffuse.jpg",
-  "./themes/onyx/normal.png",
-  "./themes/onyx/roughness.png",
-  "./themes/onyx/smoothDice.json",
-  "./themes/onyx/theme.config.json",
-  "./themes/ruby/diffuse.jpg",
-  "./themes/ruby/normal.png",
-  "./themes/ruby/roughness.png",
-  "./themes/ruby/smoothDice.json",
-  "./themes/ruby/theme.config.json",
-  "./themes/sapphire/diffuse.jpg",
-  "./themes/sapphire/normal.png",
-  "./themes/sapphire/roughness.png",
-  "./themes/sapphire/smoothDice.json",
-  "./themes/sapphire/theme.config.json",
-  // DRAGON THEMES
-  "./themes/dragon_blue/diffuse.jpg",
-  "./themes/dragon_blue/normal.png",
-  "./themes/dragon_blue/roughness.png",
-  "./themes/dragon_blue/smoothDice.json",
-  "./themes/dragon_blue/theme.config.json",
-  "./themes/dragon_green/diffuse.jpg",
-  "./themes/dragon_green/normal.png",
-  "./themes/dragon_green/roughness.png",
-  "./themes/dragon_green/smoothDice.json",
-  "./themes/dragon_green/theme.config.json",
-  "./themes/dragon_red/diffuse.jpg",
-  "./themes/dragon_red/normal.png",
-  "./themes/dragon_red/roughness.png",
-  "./themes/dragon_red/smoothDice.json",
-  "./themes/dragon_red/theme.config.json",
-  // NEON THEMES
-  "./themes/neon_blue/diffuse.jpg",
-  "./themes/neon_blue/normal.png",
-  "./themes/neon_blue/smoothDice.json",
-  "./themes/neon_blue/theme.config.json",
-  "./themes/neon_green/diffuse.jpg",
-  "./themes/neon_green/normal.png",
-  "./themes/neon_green/smoothDice.json",
-  "./themes/neon_green/theme.config.json",
-  "./themes/neon_orange/diffuse.jpg",
-  "./themes/neon_orange/normal.png",
-  "./themes/neon_orange/smoothDice.json",
-  "./themes/neon_orange/theme.config.json",
-  "./themes/neon_pink/diffuse.jpg",
-  "./themes/neon_pink/normal.png",
-  "./themes/neon_pink/smoothDice.json",
-  "./themes/neon_pink/theme.config.json",
-  "./themes/neon_red/diffuse.jpg",
-  "./themes/neon_red/normal.png",
-  "./themes/neon_red/smoothDice.json",
-  "./themes/neon_red/theme.config.json",
-  "./themes/neon_white/diffuse.jpg",
-  "./themes/neon_white/normal.png",
-  "./themes/neon_white/smoothDice.json",
-  "./themes/neon_white/theme.config.json",
+  // THEMES: se cargan bajo demanda (runtime cache) y no forman parte de la
+  // carga inicial. Así se evita descargar de golpe todos los temas cuando
+  // solo se va a usar uno o dos.
 ];
 
 async function notifyClients(message) {
@@ -205,6 +119,11 @@ async function networkFirstForNavigation(request) {
   }
 }
 
+// Contador de descargas runtime en curso (ej. texturas de un tema que aún
+// no estaba en cache). Se usa para avisar a la página cuándo mostrar/ocultar
+// el indicador de carga, incluso fuera de la precarga inicial.
+let activeRuntimeFetches = 0;
+
 async function cacheFirstWithRuntimeCache(request) {
   const precache = await caches.open(PRECACHE_NAME);
   const cachedPre = await precache.match(request);
@@ -213,6 +132,9 @@ async function cacheFirstWithRuntimeCache(request) {
   const runtime = await caches.open(RUNTIME_NAME);
   const cachedRuntime = await runtime.match(request);
   if (cachedRuntime) return cachedRuntime;
+
+  activeRuntimeFetches++;
+  await notifyClients({ type: "runtime-fetch-start", active: activeRuntimeFetches });
 
   try {
     // no-cors permite cachear también recursos cross-origin (unpkg.com) aunque la respuesta sea "opaque" (no se puede inspeccionar, pero sí se puede servir offline).
@@ -225,5 +147,8 @@ async function cacheFirstWithRuntimeCache(request) {
   } catch (err) {
     // Sin red y sin nada en cache: no hay nada más que hacer para este recurso.
     throw err;
+  } finally {
+    activeRuntimeFetches--;
+    await notifyClients({ type: "runtime-fetch-end", active: activeRuntimeFetches });
   }
 }
