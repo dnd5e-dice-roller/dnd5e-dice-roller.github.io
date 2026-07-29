@@ -9,7 +9,7 @@
     "type": "standard",
     "diffuseTexture": "diffuse.jpg",
     "bumpTexture": "normal.jpg",
-    "specularTexture": "roughness.png",
+    "specularTexture": "roughness.jpg",
     "diffuseLevel": 1,
     "bumpLevel": 0.5,
     "specularPower": 1
