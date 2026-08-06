@@ -14,7 +14,7 @@ A physics-based 3D dice roller built for **Dungeons & Dragons 5e**, running enti
 - **Roll Type Picker** — when rolling from the Character panel, choose Normal, Advantage, or Disadvantage on the fly
 - **Nat 1 / Nat 20** toast notification on single d20 rolls
 
-### Character Sheet (Skills Panel ⭐)
+### Character Sheet 👤
 - **6 Ability Scores** — STR, DEX, CON, INT, WIS, CHA — with modifier auto-calculation
 - **Proficiency Bonus** — Set your PB and it will added automatically to your savings throws and your skills proficiencies
 - **Saving Throws** — roll any save directly; mark proficiency per ability
@@ -64,7 +64,7 @@ A physics-based 3D dice roller built for **Dungeons & Dragons 5e**, running enti
     └── ...             # Dice-box WASM & asset files
 ```
 
-> Custom 3D themes are loaded from jsDelivr CDN pointing to this repository's `/themes/` folder.
+> Custom 3D themes are loaded from `/themes` folder.
 
 ---
 
