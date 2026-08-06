@@ -11,7 +11,7 @@ A physics-based 3D dice roller built for **Dungeons & Dragons 5e**, running enti
 - **d100 / Percentile** mode with automatic tens + units breakdown
 - **Numeric modifier** (positive or negative) added to any roll
 - **Advantage & Disadvantage** — rolls 2d20 and keeps the highest or lowest
-- **Roll Type Picker** — when rolling from the Skills panel, choose Normal, Advantage, or Disadvantage on the fly
+- **Roll Type Picker** — when rolling from the Character panel, choose Normal, Advantage, or Disadvantage on the fly
 - **Nat 1 / Nat 20** toast notification on single d20 rolls
 
 ### Character Sheet (Skills Panel ⭐)
