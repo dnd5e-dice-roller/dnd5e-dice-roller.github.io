@@ -1219,6 +1219,54 @@
         background-color: #555555;
       }
 
+      /* Spell Slots */
+      .spell-slots-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+      }
+
+      .spell-slot-card {
+        flex: 0 0 calc((100% - 20px) / 5);
+        box-sizing: border-box;
+      }
+
+      .spell-slots-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .spell-slots-action-btn {
+        flex: 1;
+        border: 1px solid #c9bda8;
+        border-radius: 8px;
+        background-color: #faf6ef;
+        color: #2b2b2b;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 8px 0;
+        touch-action: manipulation;
+      }
+
+      .spell-slots-action-btn:active {
+        background-color: #e6ddcf;
+      }
+
+@keyframes spell-slots-title-blink {
+  0%, 49% {
+    color: #b0b0b0;
+  }
+  50%, 100% {
+    color: #2b2b2b;
+  }
+}
+
+.skills-section-title.spell-slots-editing {
+  animation: spell-slots-title-blink 1s steps(1, end) infinite;
+      }
+
       /* Tiradas de salvación */
       .save-grid {
         display: grid;
@@ -2507,6 +2555,206 @@
               </div>
             </div>
           </div>
+
+          <!-- Sección 5: Spell Slots -->
+          <div class="skills-section">
+            <div class="skills-section-title" id="spell-slots-title">
+              Spell Slots
+            </div>
+            <div class="spell-slots-grid">
+              <div class="ability-card spell-slot-card" data-level="1">
+                <div class="ability-label">1st</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-1">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="1"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="1"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="2">
+                <div class="ability-label">2nd</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-2">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="2"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="2"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="3">
+                <div class="ability-label">3rd</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-3">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="3"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="3"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="4">
+                <div class="ability-label">4th</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-4">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="4"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="4"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="5">
+                <div class="ability-label">5th</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-5">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="5"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="5"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="6">
+                <div class="ability-label">6th</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-6">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="6"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="6"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="7">
+                <div class="ability-label">7th</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-7">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="7"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="7"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="8">
+                <div class="ability-label">8th</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-8">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="8"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="8"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="ability-card spell-slot-card" data-level="9">
+                <div class="ability-label">9th</div>
+                <div class="ability-values">
+                  <div class="ability-score" id="spell-slot-value-9">0</div>
+                </div>
+                <div class="ability-btns">
+                  <button
+                    class="ability-btn-small spell-slot-minus"
+                    data-level="9"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="ability-btn-small spell-slot-plus"
+                    data-level="9"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="spell-slots-actions">
+              <button class="spell-slots-action-btn" id="spell-slots-set-btn">
+                Set
+              </button>
+              <button
+                class="spell-slots-action-btn"
+                id="spell-slots-reset-btn"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2689,6 +2937,8 @@
           abilityScores,
           saveProficient,
           skillProficiency,
+          spellSlotsDefault,
+          spellSlotsCurrent,
           profBonus,
           customRolls,
           rollHistory,
@@ -3284,6 +3534,50 @@
       });
       Object.assign(skillProficiency, savedState.skillProficiency || {});
 
+      // ── Spell Slots ──────────────────────────────────────────────────────
+      const SPELL_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const SPELL_LEVEL_LABELS = {
+        1: "1st",
+        2: "2nd",
+        3: "3rd",
+        4: "4th",
+        5: "5th",
+        6: "6th",
+        7: "7th",
+        8: "8th",
+        9: "9th",
+      };
+      const SPELL_SLOT_MAX = {
+        1: 4,
+        2: 3,
+        3: 3,
+        4: 3,
+        5: 3,
+        6: 2,
+        7: 2,
+        8: 1,
+        9: 1,
+      };
+
+      function emptySpellSlotValues() {
+        const obj = {};
+        SPELL_LEVELS.forEach((lvl) => {
+          obj[lvl] = 0;
+        });
+        return obj;
+      }
+
+      const spellSlotsDefault = Object.assign(
+        emptySpellSlotValues(),
+        savedState.spellSlotsDefault || {},
+      );
+      const spellSlotsCurrent = Object.assign(
+        emptySpellSlotValues(),
+        savedState.spellSlotsCurrent || {},
+      );
+      const spellSlotsDraft = emptySpellSlotValues();
+      let spellSlotsEditing = false;
+
       function getAbilityMod(ability) {
         return Math.floor((abilityScores[ability] - 10) / 2);
       }
@@ -3321,6 +3615,18 @@
         const mod = getAbilityMod(skill.ability) + bonus;
         document.getElementById(`skill-mod-${skillId}`).textContent =
           formatMod(mod);
+      }
+
+      function renderSpellSlot(level) {
+        const value = spellSlotsEditing
+          ? spellSlotsDraft[level]
+          : spellSlotsCurrent[level];
+        document.getElementById(`spell-slot-value-${level}`).textContent =
+          value;
+      }
+
+      function renderAllSpellSlots() {
+        SPELL_LEVELS.forEach(renderSpellSlot);
       }
 
       function updateSkillToggleUI(skillId) {
@@ -3568,6 +3874,7 @@
       // Initial render
       ABILITIES.forEach(renderAbility);
       SKILLS.forEach((s) => updateSkillToggleUI(s.id));
+      renderAllSpellSlots();
       renderCharName();
       renderCharLevel();
       renderHP();
@@ -3636,6 +3943,77 @@
           }
         });
       });
+
+      // Spell Slots +/- buttons
+      document.querySelectorAll(".spell-slot-minus").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const level = btn.dataset.level;
+          const target = spellSlotsEditing
+            ? spellSlotsDraft
+            : spellSlotsCurrent;
+          if (target[level] > 0) {
+            target[level]--;
+            renderSpellSlot(level);
+            saveState();
+          }
+        });
+      });
+
+      document.querySelectorAll(".spell-slot-plus").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const level = btn.dataset.level;
+          const target = spellSlotsEditing
+            ? spellSlotsDraft
+            : spellSlotsCurrent;
+          const limit = spellSlotsEditing
+            ? SPELL_SLOT_MAX[level]
+            : spellSlotsDefault[level];
+          if (target[level] < limit) {
+            target[level]++;
+            renderSpellSlot(level);
+            saveState();
+          }
+        });
+      });
+
+      // Spell Slots Set/Save + Reset buttons
+      const spellSlotsTitleEl = document.getElementById("spell-slots-title");
+      const spellSlotsSetBtn = document.getElementById("spell-slots-set-btn");
+
+      spellSlotsSetBtn.addEventListener("click", () => {
+        if (!spellSlotsEditing) {
+          // Enter edit mode: start a fresh draft at 0
+          spellSlotsEditing = true;
+          SPELL_LEVELS.forEach((lvl) => {
+            spellSlotsDraft[lvl] = 0;
+          });
+          spellSlotsTitleEl.textContent = "Set your default spell slots";
+          spellSlotsTitleEl.classList.add("spell-slots-editing");
+          spellSlotsSetBtn.textContent = "Save";
+        } else {
+          // Commit the draft as the new default and refill current slots
+          spellSlotsEditing = false;
+          SPELL_LEVELS.forEach((lvl) => {
+            spellSlotsDefault[lvl] = spellSlotsDraft[lvl];
+            spellSlotsCurrent[lvl] = spellSlotsDraft[lvl];
+          });
+          spellSlotsTitleEl.textContent = "Spell Slots";
+          spellSlotsTitleEl.classList.remove("spell-slots-editing");
+          spellSlotsSetBtn.textContent = "Set";
+        }
+        renderAllSpellSlots();
+        saveState();
+      });
+
+      document
+        .getElementById("spell-slots-reset-btn")
+        .addEventListener("click", () => {
+          SPELL_LEVELS.forEach((lvl) => {
+            spellSlotsCurrent[lvl] = spellSlotsDefault[lvl];
+          });
+          if (!spellSlotsEditing) renderAllSpellSlots();
+          saveState();
+        });
 
       // Saving throw proficiency checkboxes
       document.querySelectorAll(".save-prof-checkbox").forEach((chk) => {
@@ -4146,6 +4524,8 @@
           abilityScores,
           saveProficient,
           skillProficiency,
+          spellSlotsDefault,
+          spellSlotsCurrent,
           customRolls,
         };
         const blob = new Blob([JSON.stringify(data, null, 2)], {
@@ -4216,6 +4596,24 @@
             skillProficiency[s.id] = val === "P" || val === "E" ? val : null;
           });
         }
+        if (
+          data.spellSlotsDefault &&
+          typeof data.spellSlotsDefault === "object"
+        ) {
+          SPELL_LEVELS.forEach((lvl) => {
+            if (Number.isFinite(data.spellSlotsDefault[lvl]))
+              spellSlotsDefault[lvl] = data.spellSlotsDefault[lvl];
+          });
+        }
+        if (
+          data.spellSlotsCurrent &&
+          typeof data.spellSlotsCurrent === "object"
+        ) {
+          SPELL_LEVELS.forEach((lvl) => {
+            if (Number.isFinite(data.spellSlotsCurrent[lvl]))
+              spellSlotsCurrent[lvl] = data.spellSlotsCurrent[lvl];
+          });
+        }
         if (Array.isArray(data.customRolls)) {
           customRolls = data.customRolls.filter(
             (r) =>
@@ -4231,6 +4629,13 @@
         // Re-render everything affected
         ABILITIES.forEach(renderAbility);
         SKILLS.forEach((s) => updateSkillToggleUI(s.id));
+        if (spellSlotsEditing) {
+          spellSlotsEditing = false;
+          spellSlotsTitleEl.textContent = "Spell Slots";
+          spellSlotsTitleEl.classList.remove("spell-slots-editing");
+          spellSlotsSetBtn.textContent = "Set";
+        }
+        renderAllSpellSlots();
         renderCharName();
         renderCharLevel();
         renderHP();
