@@ -1,4 +1,4 @@
-# 🎲 D&D 5e Dice Roller ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+# 🎲 D&D 5e Dice Roller ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg) ![version](https://img.shields.io/badge/version-2.1.5-blue)
 
 A physics-based 3D dice roller built for **Dungeons & Dragons 5e**, running entirely in the browser with no backend required. Designed for mobile-first use, with a warm tabletop aesthetic and a full D&D character sheet integration.
 
