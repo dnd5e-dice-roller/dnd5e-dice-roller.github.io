@@ -1709,7 +1709,7 @@
       <div id="dice-box-wrapper">
         <div id="dice-box"></div>
         <div id="precache-toast">
-          <svg id="precache-ring" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <svg id="precache-ring" viewBox="0 0 24 24">
             <path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
             <path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
               <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
@@ -1845,120 +1845,6 @@
               <div id="color-swatch"></div>
               <div id="color-hex-label">#0070c0</div>
             </div>
-          </div>
-
-          <hr id="gem-themes-divider" />
-          <div id="gem-themes-label">Gem Themes</div>
-          <div id="gem-themes-grid">
-            <!-- TEMA DE PRUEBA -->
-            <!-- <button class="gem-theme-btn" data-theme="prueba">
-              <div class="gem-dot" style="background: black;"></div>
-              PRUEBA
-            </button> -->
-            <!-- GEM THEMES -->
-            <button class="gem-theme-btn" data-theme="amber">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffe066, #c47a00);"></div>
-              Amber
-            </button>
-            <button class="gem-theme-btn" data-theme="amethyst">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #d09fff, #6b1ea0);"></div>
-              Amethyst
-            </button>
-            <button class="gem-theme-btn" data-theme="aquamarine">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #7ffff0, #007a6e);"></div>
-              Aquamarine
-            </button>
-            <button class="gem-theme-btn" data-theme="diamond">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffffff, #a0a0a0);"></div>
-              Diamond
-            </button>
-            <button class="gem-theme-btn" data-theme="emerald">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #7dfa9a, #006b25);"></div>
-              Emerald
-            </button>
-            <button class="gem-theme-btn" data-theme="onyx">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #6b6b6b, #111111);"></div>
-              Onyx
-            </button>
-            <button class="gem-theme-btn" data-theme="ruby">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ff7070, #8b0000);"></div>
-              Ruby
-            </button>
-            <button class="gem-theme-btn" data-theme="sapphire">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #7ab8ff, #001a7a);"></div>
-              Sapphire
-            </button>
-          </div>
-          <!-- DRAGON THEMES -->
-          <hr id="gem-themes-divider" />
-          <div id="gem-themes-label">Dragon Themes</div>
-          <div id="gem-themes-grid">
-            <button class="gem-theme-btn" data-theme="dragon_black">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #969393, #000000);"></div>
-              Black Dragon
-            </button>
-            <button class="gem-theme-btn" data-theme="dragon_white">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffffff, #a0a0a0);"></div>
-              White Dragon
-            </button>
-            <button class="gem-theme-btn" data-theme="dragon_blue">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #c3c9ff, #0000ff);"></div>
-              Blue Dragon
-            </button>
-            <button class="gem-theme-btn" data-theme="dragon_green">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #a2ff90, #02a000);"></div>
-              Green Dragon
-            </button>
-            <button class="gem-theme-btn" data-theme="dragon_red">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ff9b9b, #8c0000);"></div>
-              Red Dragon
-            </button>
-          </div>
-          <!-- NEON THEMES -->
-          <hr id="gem-themes-divider" />
-          <div id="gem-themes-label">Neon Themes</div>
-          <div id="gem-themes-grid">
-            <button class="gem-theme-btn" data-theme="neon_blue">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #00ffff, #0000ff);"></div>
-              Blue Neon
-            </button>
-            <button class="gem-theme-btn" data-theme="neon_green">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #c7ffce, #008e10);"></div>
-              Green Neon
-            </button>
-            <button class="gem-theme-btn" data-theme="neon_orange">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffd77d, #dd8500);"></div>
-              Orange Neon
-            </button>
-            <button class="gem-theme-btn" data-theme="neon_pink">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffc0fc, #f100e5);"></div>
-              Pink Neon
-            </button>
-            <button class="gem-theme-btn" data-theme="neon_red">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffbfbf, #ff1e1e);"></div>
-              Red Neon
-            </button>
-            <button class="gem-theme-btn" data-theme="neon_white">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffffff, #a0a0a0);"></div>
-              White Neon
-            </button>
-          </div>
-          <!-- SPECIAL THEMES -->
-          <hr id="gem-themes-divider" />
-          <div id="gem-themes-label">Special Themes</div>
-          <div id="gem-themes-grid">
-            <button class="gem-theme-btn" data-theme="magma">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #ffa03c, #910000);"></div>
-              Magma
-            </button>
-            <button class="gem-theme-btn" data-theme="slime">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #33be00, #005c02);"></div>
-              Slime
-            </button>
-            <button class="gem-theme-btn" data-theme="underdark">
-              <div class="gem-dot" style="background: radial-gradient(circle at 35% 35%, #000000, #000000);"></div>
-              Underdark
-            </button>
           </div>
         </div>
       </div>
@@ -3035,32 +2921,6 @@
           externalThemes: {
             prueba: themeBase + "prueba/",
             smooth: themeBase + "smooth/",
-            // Gem Themes
-            amber: themeBase + "amber/",
-            amethyst: themeBase + "amethyst/",
-            aquamarine: themeBase + "aquamarine/",
-            diamond: themeBase + "diamond/",
-            emerald: themeBase + "emerald/",
-            onyx: themeBase + "onyx/",
-            ruby: themeBase + "ruby/",
-            sapphire: themeBase + "sapphire/",
-            // Dragon Themes
-            dragon_black: themeBase + "dragon_black/",
-            dragon_blue: themeBase + "dragon_blue/",
-            dragon_green: themeBase + "dragon_green/",
-            dragon_red: themeBase + "dragon_red/",
-            dragon_white: themeBase + "dragon_white/",
-            // Neon Themes
-            neon_blue: themeBase + "neon_blue/",
-            neon_green: themeBase + "neon_green/",
-            neon_orange: themeBase + "neon_orange/",
-            neon_pink: themeBase + "neon_pink/",
-            neon_red: themeBase + "neon_red/",
-            neon_white: themeBase + "neon_white/",
-            // Special Themes
-            magma: themeBase + "magma/",
-            slime: themeBase + "slime/",
-            underdark: themeBase + "underdark/",
           },
           themeColor: diceSettings.themeColor,
           delay: 100,
