@@ -32,8 +32,6 @@ A physics-based 3D dice roller built for **Dungeons & Dragons 5e**, running enti
 ### Physics & Appearance
 - **Physics panel ⚙️** — tweak dice size (Small / Medium / Large), gravity, friction, bounce, light intensity, and shadows
 - **Color panel 🎨** — pick any custom color via color picker
-- Multiple custom 3D themes: plain custom colors, gemstones themes, dragon skin themes, neon light themes, and special themes.
-- Wood-texture tabletop background
 
 ### Persistence
 - All state (dice counts, modifier, ability scores, proficiencies, custom rolls, physics settings, dice color) is automatically saved to **localStorage** and restored on next visit
